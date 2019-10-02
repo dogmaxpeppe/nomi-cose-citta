@@ -1,0 +1,27 @@
+<form [formGroup]="playerForm" (ngSubmit)="onSubmit()">
+    <ion-list lines="full" class="ion-no-margin ion-no-padding">
+        <ion-item>
+            <ion-label position="stacked">Nome Giocatore
+                <ion-text color="danger">*</ion-text>
+            </ion-label>
+            <ion-input formControlName="name" placeholder="Inserisci Nome Giocatore"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label position="stacked">Avatar</ion-label>
+            <ion-row>
+                <ion-col *ngFor="let avatar of avatars">
+                    <ion-button id="avatar-{{ avatar.id }}" class="avatar" fill="clear" (click)="selectAvatar(avatar.id)">
+                        <app-avatar [avatar]="avatar" ></app-avatar>
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-item>
+    </ion-list>
+    <div class="ion-padding">
+        <ion-button
+                expand="block"
+                type="submit"
+                class="ion-no-margin"
+                [disabled]="!playerForm.valid">Crea Giocatore</ion-button>
+    </div>
+</form>

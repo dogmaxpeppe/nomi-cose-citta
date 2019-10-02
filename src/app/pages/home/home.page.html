@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Inizia Partita - Crea giocatori
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <app-player-list [players]="playerList"></app-player-list>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-button color="primary" (click)="createPlayer()">Crea Giocatore</ion-button>
+        <ion-button color="success" disabled="{{ !playerList.length }}" (click)="startGame()">Inizia partita!</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
