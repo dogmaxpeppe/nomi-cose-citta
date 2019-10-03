@@ -9,11 +9,11 @@
         <ion-item>
             <ion-label position="stacked">Avatar</ion-label>
             <ion-row>
-                <ion-col *ngFor="let avatar of avatars">
-                    <ion-button id="avatar-{{ avatar.id }}" class="avatar" fill="clear" (click)="selectAvatar(avatar.id)">
+                <ion-segment (ionChange)="selectAvatar($event.detail.value)">
+                    <ion-segment-button *ngFor="let avatar of avatars" value="{{ avatar.id }}">
                         <app-avatar [avatar]="avatar" ></app-avatar>
-                    </ion-button>
-                </ion-col>
+                    </ion-segment-button>
+                </ion-segment>
             </ion-row>
         </ion-item>
     </ion-list>

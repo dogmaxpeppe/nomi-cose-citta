@@ -11,6 +11,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { SharedService } from './services/shared.service';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { SmartAudio } from './services/smart-audio.service'
+import { NativeAudio } from '@ionic-native/native-audio/ngx';
+
+// REDUX
+import { StoreModule } from '@ngrx/store';
+import reducer from '../reducer';
+import { Actions } from '../actions';
+
 @NgModule({
     declarations: [AppComponent],
     entryComponents: [],
@@ -18,13 +26,17 @@ import { ReactiveFormsModule } from '@angular/forms';
         BrowserModule,
         IonicModule.forRoot(),
         AppRoutingModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        StoreModule.forRoot({'': reducer}),
     ],
     providers: [
         StatusBar,
         SplashScreen,
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-        SharedService
+        SharedService,
+        SmartAudio,
+        NativeAudio,
+        Actions
     ],
     bootstrap: [AppComponent]
 })

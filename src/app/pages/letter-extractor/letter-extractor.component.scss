@@ -1,0 +1,98 @@
+@mixin iconAnimation($seconds, $start: 0s, $animation: zoomIn) {
+    animation: $seconds ease-out $start 1 $animation;
+    animation-fill-mode: forwards;
+}
+
+.icon-letter {
+    opacity: 0;
+    font-size: 50vh;
+    color: white;
+    background-color: var(--ion-color-primary);
+    width: auto;
+    height: auto;
+    border-radius: 50%;
+    text-align: center;
+    position: relative;
+    top: 25%;
+    animation: 0.2s ease-out 0s 1 iconFadeIn;
+    animation-fill-mode: forwards;
+}
+
+.icon-letter-char {
+    opacity: 0;
+    @include iconAnimation(0.5s, 0.5s);
+}
+
+.icon-letter-timer {
+    @extend .icon-letter;
+    background-color: unset;
+    color: black;
+}
+
+.icon-letter-char-timer {
+    opacity: 0;
+    @include iconAnimation(0.5s, 0s);
+}
+
+.icon-letter-char-timer-last {
+    opacity: 0;
+    @include iconAnimation(0.5s, 0s, zoomInWithFadeout)
+}
+
+.icon-letter-single {
+    font-size: 5vh;
+    margin: 20px;
+    width: 5vh;
+    display: inline-block
+}
+
+.extract-button {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.timer {
+    @extend .icon-letter-timer;
+    font-size: 30vh;
+}
+
+.timer-less-minute {
+    color: var(--ion-color-warning)
+}
+
+.timer-last-ten-seconds {
+    color: var(--ion-color-danger)
+}
+
+@keyframes iconFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        font-size: 50%;
+    }
+    to {
+        font-size: 100%;
+        opacity: 1;
+    }
+}
+
+@keyframes zoomInWithFadeout {
+    0% {
+        font-size: 50%;
+    }
+    70% {
+        font-size: 100%;
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}

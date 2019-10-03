@@ -2,15 +2,18 @@
     <p>La lista dei giocatori è vuota! Aggiungi un nuovo giocatore.</p>
 </div>
 <ng-template #playersDiv>
-    <ion-list>
-        <ion-header>
-            Lista giocatori registrati
-        </ion-header>
-    </ion-list>
+<!--    <ion-list>-->
+<!--        <ion-header>-->
+<!--            Lista giocatori registrati-->
+<!--        </ion-header>-->
+<!--    </ion-list>-->
     <ion-item *ngFor="let player of players">
         <ion-avatar slot="start">
             <app-avatar [idAvatar]="player.avatar"></app-avatar>
         </ion-avatar>
-        <ion-label><h1>{{ player.name }}</h1></ion-label>
+        <ion-label>
+            <h1>{{ player.name }}</h1>
+            <h2 *ngIf="player.points !== null">{{ player.points }}</h2>
+        </ion-label>
     </ion-item>
 </ng-template>

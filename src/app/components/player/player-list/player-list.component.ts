@@ -6,7 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./player-list.component.scss'],
 })
 export class PlayerListComponent implements OnInit {
-  @Input() players: [];
+  @Input() players: Array<Player>;
 
   constructor() { }
 

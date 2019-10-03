@@ -27,18 +27,12 @@ export class PlayerCreateComponent implements OnInit {
             this.sharedService.emitChange({
                 name: this.playerForm.get('name').value,
                 avatar: this.playerForm.get('avatar').value,
+                points: null,
             });
         }
     }
 
     selectAvatar(id) {
-        document.getElementById(`avatar-${id}`).classList.add('selected');
-        document.querySelectorAll('.selected').forEach((element) => {
-            if ( element.classList.contains('selected') && element.id !== `avatar-${id}` ) {
-                element.classList.remove('selected');
-                return false;
-            }
-        });
         this.playerForm.get('avatar').setValue(id);
     }
 }

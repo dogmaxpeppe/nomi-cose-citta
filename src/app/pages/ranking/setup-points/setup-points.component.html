@@ -1,0 +1,15 @@
+<form [formGroup]="playerPointsForm" (ngSubmit)="onSubmit()">
+  <ion-list lines="full" class="ion-no-margin ion-no-padding">
+    <ion-item *ngFor="let player of players;">
+      <ion-label position="stacked">{{ player.name }}
+      </ion-label>
+      <ion-input formControlName="player-{{player.id}}" type="number" placeholder="Inserisci Punteggio"></ion-input>
+    </ion-item>
+  </ion-list>
+  <div class="ion-padding">
+    <ion-button
+            expand="block"
+            type="submit"
+            class="ion-no-margin">Salva Punteggi</ion-button>
+  </div>
+</form>
