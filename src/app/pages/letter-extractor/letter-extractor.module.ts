@@ -4,9 +4,6 @@ import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 
 import { LetterExtractorComponent } from './letter-extractor.component';
-
-import { StoreModule } from '@ngrx/store';
-import reducer from '../../../reducer';
 import { Actions } from '../../../actions';
 
 @NgModule({
@@ -19,7 +16,6 @@ import { Actions } from '../../../actions';
                 component: LetterExtractorComponent
             }
         ]),
-        StoreModule.forRoot({letters: reducer}),
     ],
     declarations: [LetterExtractorComponent],
     providers: [Actions]

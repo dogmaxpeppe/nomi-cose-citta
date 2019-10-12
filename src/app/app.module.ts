@@ -27,7 +27,7 @@ import { Actions } from '../actions';
         IonicModule.forRoot(),
         AppRoutingModule,
         ReactiveFormsModule,
-        StoreModule.forRoot({'': reducer}),
+        StoreModule.forRoot({'reducer': reducer}),
     ],
     providers: [
         StatusBar,

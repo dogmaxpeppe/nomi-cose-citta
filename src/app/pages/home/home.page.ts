@@ -22,11 +22,11 @@ export class HomePage {
         private actions: Actions,
         private appStore: Store<AppState>
     ) {
-        this.appStore.select('players').subscribe(state => {
-            this.playerList = state['players'];
+        this.appStore.select('reducer').subscribe(state => {
+            this.playerList = state.players;
         });
 
-        sharedService.changeEmitted$.subscribe(playerData => {
+        sharedService.addPlayer$.subscribe(playerData => {
             this.appStore.dispatch(this.actions.addPlayer(playerData));
             this.modalController.dismiss({
                 dismissed: true,

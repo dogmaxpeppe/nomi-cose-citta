@@ -29,15 +29,16 @@ export class LetterExtractorComponent {
         private actions: Actions,
         private appStore: Store<AppState>
     ) {
-        this.appStore.select('letters').subscribe(state => {
-            console.log(state);
-            this.listLetters = state['letters'];
+        this.appStore.select('reducer').subscribe(state => {
+            this.listLetters = state.letters;
             this.letters = this.listLetters.split('');
         });
 
         this.smartAudio.preload('lastminute', 'assets/audio/lastminute.mp3');
         this.smartAudio.preload('lastsecond', 'assets/audio/lastsecond.mp3');
         this.smartAudio.preload('timeout', 'assets/audio/timeout.mp3');
+        this.smartAudio.preload('countdown-beep', 'assets/audio/countdown-beep.mp3');
+        this.smartAudio.preload('start', 'assets/audio/start.mp3');
     }
 
     extractLetter() {
@@ -49,6 +50,13 @@ export class LetterExtractorComponent {
                 this.startRound(indexLetter);
             });
         }, 1500);
+    }
+
+    ionViewWillEnter()
+    {
+        this.timerActive = false;
+        this.timerStr = null;
+        this.currentLetter = null;
     }
 
     private startRound(index) {
@@ -71,22 +79,26 @@ export class LetterExtractorComponent {
             }
         }
 
+        this.smartAudio.play('countdown-beep');
         setTimeout(() => {
             hideAndChange(this.timerNumber, '2');
             setTimeout(() => {
+                this.smartAudio.play('countdown-beep');
                 show(this.timerNumber);
                 setTimeout(() => {
                     hideAndChange(this.timerNumber, '1');
                     setTimeout(() => {
+                        this.smartAudio.play('countdown-beep');
                         show(this.timerNumber);
                         setTimeout(() => {
                             hideAndChange(this.timerNumber, 'VIA!');
+                            this.smartAudio.play('start');
                             setTimeout(() => {
                                 show(this.timerNumber, 'icon-letter-char-timer-last');
                                 setTimeout(() => {
                                     this.timerNumber.nativeElement.parentElement.style.display = 'none';
                                     this.startTimer();
-                                }, 500);
+                                }, 350);
                             }, 50);
                         }, 950);
                     }, 50);

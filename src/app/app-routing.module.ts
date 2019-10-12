@@ -16,13 +16,15 @@ const routes: Routes = [
         loadChildren: () => import('./pages/letter-extractor/letter-extractor.module').then(m => m.LetterExtractorModule)
     },
     {
-        path: 'list',
-        loadChildren: () => import('./pages/list/list.module').then(m => m.ListPageModule)
+        path: 'settings',
+        loadChildren: () => import('./pages/settings/settings.module').then(m => m.SettingsPageModule)
     },
     {
         path: 'ranking',
         loadChildren: './pages/ranking/ranking.module#RankingPageModule'
-    }
+    },
+  { path: 'settings', loadChildren: './settings/settings.module#SettingsPageModule' }
+
 ];
 
 @NgModule({

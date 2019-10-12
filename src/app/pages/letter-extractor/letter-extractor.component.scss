@@ -3,19 +3,33 @@
     animation-fill-mode: forwards;
 }
 
-.icon-letter {
+%icon-letter-base {
     opacity: 0;
-    font-size: 50vh;
-    color: white;
     background-color: var(--ion-color-primary);
-    width: auto;
-    height: auto;
     border-radius: 50%;
+    color: white;
+    width: auto;
     text-align: center;
-    position: relative;
-    top: 25%;
     animation: 0.2s ease-out 0s 1 iconFadeIn;
     animation-fill-mode: forwards;
+}
+
+.icon-letter {
+    @extend %icon-letter-base;
+    display: inline-block;
+    font-size: 5vh;
+    width: 12vh;
+    margin: 2%;
+}
+
+.icon-letter-single {
+    @extend %icon-letter-base;
+    font-size: 50vh;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
+    width: 100%;
 }
 
 .icon-letter-char {
@@ -24,7 +38,8 @@
 }
 
 .icon-letter-timer {
-    @extend .icon-letter;
+    @extend .icon-letter-single;
+    font-size: 30vh;
     background-color: unset;
     color: black;
 }
@@ -36,15 +51,9 @@
 
 .icon-letter-char-timer-last {
     opacity: 0;
-    @include iconAnimation(0.5s, 0s, zoomInWithFadeout)
+    @include iconAnimation(0.35s, 0s, zoomInWithFadeout)
 }
 
-.icon-letter-single {
-    font-size: 5vh;
-    margin: 20px;
-    width: 5vh;
-    display: inline-block
-}
 
 .extract-button {
     position: absolute;

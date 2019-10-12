@@ -8,8 +8,6 @@ import { IonicModule } from '@ionic/angular';
 import { RankingPage } from './ranking.page';
 
 // REDUX
-import { StoreModule } from '@ngrx/store';
-import reducer from '../../../reducer';
 import { Actions } from '../../../actions';
 import { PlayerModule } from '../../components/player/player.module';
 import { SetupPointsComponent } from './setup-points/setup-points.component';
@@ -27,7 +25,6 @@ const routes: Routes = [
         FormsModule,
         IonicModule,
         RouterModule.forChild(routes),
-        StoreModule.forRoot({players: reducer}),
         PlayerModule,
         ReactiveFormsModule
     ],

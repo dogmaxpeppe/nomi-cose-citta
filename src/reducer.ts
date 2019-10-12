@@ -15,6 +15,7 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
+    console.log('ACTION: ' + action.type);
     switch ( action.type ) {
         case actions.ADD_PLAYER:
             const newPlayer = action.newPlayer;
@@ -29,6 +30,20 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 letters: action.letters,
             };
+        case actions.UPDATE_POINTS:
+            const playersUpdated = JSON.parse(JSON.stringify(state.players));
+            playersUpdated.map((player) => {
+                player.points = action.points["player-" + player.id];
+                return player;
+            });
+
+            const newState = {
+                ...state,
+                players: playersUpdated
+            };
+            console.log(newState);
+
+            return newState;
         case actions.NEW_GAME:
             return initialState;
         default:

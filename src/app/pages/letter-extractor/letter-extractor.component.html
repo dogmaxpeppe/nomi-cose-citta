@@ -6,12 +6,12 @@
 
 <ion-content>
     <div *ngIf="!timerActive; else timer">
-        <div *ngIf="currentLetter; else availableChars" class="icon-letter">
+        <div *ngIf="currentLetter; else availableChars" class="icon-letter-single">
             <span class="icon-letter-char">{{ currentLetter }}</span>
         </div>
         <ng-template #availableChars>
             <div>
-                <div *ngFor="let char of letters" class="icon-letter icon-letter-single">
+                <div *ngFor="let char of letters" class="icon-letter">
                     <span class="icon-letter-char">{{ char }}</span>
                 </div>
             </div>

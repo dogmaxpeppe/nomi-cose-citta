@@ -1,5 +1,6 @@
 export const ADD_PLAYER = 'ADD_PLAYER';
 export const UPDATE_LETTERS = 'UPDATE_LETTERS';
+export const UPDATE_POINTS = 'UPDATE_POINTS';
 export const NEW_GAME = 'NEW_GAME';
 
 export class Actions {
@@ -16,6 +17,13 @@ export class Actions {
         return {
             type: UPDATE_LETTERS,
             letters: letters
+        }
+    }
+
+    updatePoints(points: any) {
+        return {
+            type: UPDATE_POINTS,
+            points: points
         }
     }
 

@@ -24,7 +24,7 @@ export class PlayerCreateComponent implements OnInit {
 
     onSubmit() {
         if ( this.playerForm.valid ) {
-            this.sharedService.emitChange({
+            this.sharedService.emitAddPlayerFun({
                 name: this.playerForm.get('name').value,
                 avatar: this.playerForm.get('avatar').value,
                 points: null,

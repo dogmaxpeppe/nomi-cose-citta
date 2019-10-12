@@ -8,7 +8,6 @@ import { HomePage } from './home.page';
 import { PlayerCreateComponent } from '../../components/player/player-create/player-create.component';
 
 import { PlayerModule } from '../../components/player/player.module';
-import { StoreModule } from '@ngrx/store';
 
 @NgModule({
     imports: [

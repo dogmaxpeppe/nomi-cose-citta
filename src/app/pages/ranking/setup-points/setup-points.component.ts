@@ -8,24 +8,26 @@ import { NavParams } from '@ionic/angular';
     templateUrl: './setup-points.component.html',
     styleUrls: ['./setup-points.component.scss'],
 })
-export class SetupPointsComponent implements OnInit {
+export class SetupPointsComponent {
 
     @Input() players: Array<Player>;
+    @Input() points: Array<any>;
     playerPointsForm: FormGroup;
     constructor(
         private sharedService: SharedService,
         navParams: NavParams
     ) {
         this.players = navParams.get('players');
+        this.points = navParams.get('points');
         const controls = {};
 
-        for ( let player of this.players )
-            controls[`player-${player.id}`] = new FormControl(0, Validators.required);
+        for ( let player of this.players ) {
+            const points = typeof this.points[`player-${player.id}`] !== "undefined" ? this.points[`player-${player.id}`] : 0;
+            controls[`player-${player.id}`] = new FormControl(points, Validators.required);
+        }
 
         this.playerPointsForm = new FormGroup(controls);
     }
-
-    ngOnInit() {}
 
     onSubmit() {
         if ( this.playerPointsForm.valid ) {
@@ -33,9 +35,8 @@ export class SetupPointsComponent implements OnInit {
             Object.keys(this.playerPointsForm.controls).map(key => {
                 data[key] = this.playerPointsForm.get(key).value;
             });
-            console.log(data);
 
-            this.sharedService.emitChange(data);
+            this.sharedService.emitUpdatePointsFun(data);
         }
     }
 }

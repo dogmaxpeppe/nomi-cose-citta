@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-    <app-player-list [players]="playerList"></app-player-list>
+    <app-player-list [players]="playerListSorted"></app-player-list>
     <ion-button *ngIf="setupPointsMode" (click)="setupPoints()">Imposta Punteggi</ion-button>
     <ion-button (click)="nextRound()">Prossimo Round</ion-button>
     <ion-button *ngIf="!gameEnded" (click)="endGame()">Termina Partita</ion-button>

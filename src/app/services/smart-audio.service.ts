@@ -9,6 +9,7 @@ export class SmartAudio {
 
     audioType: string = 'html5';
     sounds: any = [];
+    readonly ASSETS_PATH: 'assets/audio/';
 
     constructor(public nativeAudio: NativeAudio, platform: Platform) {
 
