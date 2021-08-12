@@ -20,6 +20,9 @@ export class LetterExtractorComponent {
     public currentLetter = null;
     public timerActive = false;
     public timerStr: string = null;
+
+    // TODO: fai parametro configurabile
+    public countdownSeconds = 120;
     @ViewChild('timerNumber', {static: false}) timerNumber: ElementRef;
     @ViewChild('timerStarted', {static: false}) timerEl: ElementRef;
 
@@ -41,8 +44,17 @@ export class LetterExtractorComponent {
         this.smartAudio.preload('start', 'assets/audio/start.mp3');
     }
 
-    extractLetter() {
-        const indexLetter = Math.floor((Math.random() * this.letters.length));
+    ionViewWillEnter() {
+        this.timerActive = false;
+        this.timerStr = null;
+        this.currentLetter = null;
+    }
+
+    extractLetter(selectedLetterIndex: number = null) {
+        // Se selezioni la lettera, usa quella. Altrimenti, prendila Random
+        const indexLetter = selectedLetterIndex === null
+            ? Math.floor((Math.random() * this.letters.length))
+            : selectedLetterIndex;
         this.currentLetter = this.letters[indexLetter];
 
         setTimeout(() => {
@@ -52,9 +64,7 @@ export class LetterExtractorComponent {
         }, 1500);
     }
 
-    ionViewWillEnter() {
-        this.timerActive = false;
-        this.timerStr = null;
+    resetLetter() {
         this.currentLetter = null;
     }
 
@@ -65,7 +75,7 @@ export class LetterExtractorComponent {
         this.startCountDown();
     }
 
-    private startCountDown() {
+    private async startCountDown() {
         function hideAndChange(timerNumberRef, str: string) {
             timerNumberRef.nativeElement.style.display = 'none';
             timerNumberRef.nativeElement.innerHTML = str;
@@ -73,37 +83,65 @@ export class LetterExtractorComponent {
 
         function show(timerNumberRef, newClass = null) {
             timerNumberRef.nativeElement.style.display = '';
-            if ( newClass ) {
+            if (newClass) {
                 timerNumberRef.nativeElement.classList = newClass;
             }
         }
 
+        // Promise per evitare il callback hell
+        const wait = ms => new Promise((resolve) => setTimeout(resolve, ms));
+
         this.smartAudio.play('countdown-beep');
-        setTimeout(() => {
-            hideAndChange(this.timerNumber, '2');
-            setTimeout(() => {
-                this.smartAudio.play('countdown-beep');
-                show(this.timerNumber);
-                setTimeout(() => {
-                    hideAndChange(this.timerNumber, '1');
-                    setTimeout(() => {
-                        this.smartAudio.play('countdown-beep');
-                        show(this.timerNumber);
-                        setTimeout(() => {
-                            hideAndChange(this.timerNumber, 'VIA!');
-                            this.smartAudio.play('start');
-                            setTimeout(() => {
-                                show(this.timerNumber, 'icon-letter-char-timer-last');
-                                setTimeout(() => {
-                                    this.timerNumber.nativeElement.parentElement.style.display = 'none';
-                                    this.startTimer();
-                                }, 350);
-                            }, 50);
-                        }, 950);
-                    }, 50);
-                }, 950);
-            }, 50);
-        }, 1000);
+        await wait(1000);
+        hideAndChange(this.timerNumber, '2');
+
+        await wait(50);
+        this.smartAudio.play('countdown-beep');
+        show(this.timerNumber);
+
+        await wait(950);
+        hideAndChange(this.timerNumber, '1');
+
+        await wait(50);
+        this.smartAudio.play('countdown-beep');
+        show(this.timerNumber);
+
+        await wait(950);
+        hideAndChange(this.timerNumber, 'VIA!');
+        this.smartAudio.play('start');
+
+        await wait(50);
+        show(this.timerNumber, 'icon-letter-char-timer-last');
+
+        await wait(350);
+        this.timerNumber.nativeElement.parentElement.style.display = 'none';
+        this.startTimer();
+
+        // setTimeout(() => {
+        //     hideAndChange(this.timerNumber, '2');
+        //     setTimeout(() => {
+        //         this.smartAudio.play('countdown-beep');
+        //         show(this.timerNumber);
+        //         setTimeout(() => {
+        //             hideAndChange(this.timerNumber, '1');
+        //             setTimeout(() => {
+        //                 this.smartAudio.play('countdown-beep');
+        //                 show(this.timerNumber);
+        //                 setTimeout(() => {
+        //                     hideAndChange(this.timerNumber, 'VIA!');
+        //                     this.smartAudio.play('start');
+        //                     setTimeout(() => {
+        //                         show(this.timerNumber, 'icon-letter-char-timer-last');
+        //                         setTimeout(() => {
+        //                             this.timerNumber.nativeElement.parentElement.style.display = 'none';
+        //                             this.startTimer();
+        //                         }, 350);
+        //                     }, 50);
+        //                 }, 950);
+        //             }, 50);
+        //         }, 950);
+        //     }, 50);
+        // }, 1000);
     }
 
     private startTimer() {
@@ -120,7 +158,7 @@ export class LetterExtractorComponent {
 
         this.timerNumber.nativeElement.style.display = 'none';
         const endTime = new Date();
-        endTime.setSeconds(endTime.getSeconds() + 1);
+        endTime.setSeconds(endTime.getSeconds() + this.countdownSeconds);
         const timer = this.timerEl.nativeElement;
         timer.style.display = '';
         const timeInterval = setInterval(() => {
@@ -141,10 +179,12 @@ export class LetterExtractorComponent {
 
             this.timerStr = `${t.minutes}:${t.seconds}`;
 
-            if ( t.total <= 0 ) {
+            if (t.total <= 0) {
                 this.smartAudio.play('timeout');
                 clearInterval(timeInterval);
-                setTimeout(() => {this.router.navigate(['/ranking'], {state: {setupPoints: true}});})
+                setTimeout(() => {
+                    this.router.navigate(['/ranking'], {state: {setupPoints: true}});
+                });
             }
         }, 1000);
     }

@@ -11,12 +11,17 @@
         </div>
         <ng-template #availableChars>
             <div>
-                <div *ngFor="let char of letters" class="icon-letter">
+                <div *ngFor="let char of letters; let i = index" class="icon-letter" (click)="extractLetter(i)">
                     <span class="icon-letter-char">{{ char }}</span>
                 </div>
             </div>
         </ng-template>
-        <ion-button class="extract-button" color="primary" (click)="extractLetter()">Estrai Lettera</ion-button>
+        <div class="extract-button-div">
+            <ion-button *ngIf="currentLetter" class="extract-button" color="secondary" (click)="resetLetter()">Seleziona
+                Lettera
+            </ion-button>
+            <ion-button class="extract-button" color="primary" (click)="extractLetter()">Estrai Lettera</ion-button>
+        </div>
     </div>
     <ng-template #timer>
         <div class="icon-letter-timer">

@@ -41,7 +41,6 @@
     @extend .icon-letter-single;
     font-size: 30vh;
     background-color: unset;
-    color: black;
 }
 
 .icon-letter-char-timer {
@@ -55,9 +54,13 @@
 }
 
 
-.extract-button {
+.extract-button-div {
     position: absolute;
     bottom: 0;
+    width: 100%;
+}
+
+.extract-button {
     width: 100%;
 }
 

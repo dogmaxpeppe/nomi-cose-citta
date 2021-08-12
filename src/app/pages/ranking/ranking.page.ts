@@ -64,7 +64,8 @@ export class RankingPage implements OnInit {
             componentProps: {
                 players: this.playerList,
                 points: this.pointsToUpdate,
-            }
+            },
+            backdropDismiss: false
         });
 
         await modal.present();
