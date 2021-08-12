@@ -11,6 +11,7 @@ if (environment.production) {
 platformBrowserDynamic().bootstrapModule(AppModule)
     .catch(err => console.log(err));
 
+// TODO: se la settings relativa è NULL, bypassala e seleziona il tema desiderato
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 
 toggleDarkTheme(prefersDark.matches);

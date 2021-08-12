@@ -2,8 +2,17 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+export const settingsLabels = {
+  DARK_THEME_ENABLED: 'darkThemeEnabled',
+  COUNTDOWN_SECONDS: 'countdownSeconds',
+};
+
 export const environment = {
-  production: false
+  production: false,
+  settings: {
+    [settingsLabels.DARK_THEME_ENABLED]: null,
+    [settingsLabels.COUNTDOWN_SECONDS]: 120,
+  }
 };
 
 /*

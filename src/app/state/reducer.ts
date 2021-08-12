@@ -35,14 +35,10 @@ export const reducer = createReducer(
             return player;
         });
 
-        const newState = {
+        return {
             ...state,
             players: playersUpdated
         };
-
-        console.log(newState);
-
-        return newState;
     }),
     on(newGame, () => initialState)
 );

@@ -7,6 +7,9 @@ import { select, Store } from '@ngrx/store';
 import { updateLetters } from '../../state/actions';
 
 import { selectLetters } from '../../state/selectors';
+import { SettingsService } from '../../services/settings.service';
+
+import * as moment from 'moment';
 
 @Component({
     selector: 'app-letter-extractor',
@@ -21,8 +24,7 @@ export class LetterExtractorComponent {
     public timerActive = false;
     public timerStr: string = null;
 
-    // TODO: fai parametro configurabile
-    public countdownSeconds = 120;
+    public countdownSeconds;
     @ViewChild('timerNumber', {static: false}) timerNumber: ElementRef;
     @ViewChild('timerStarted', {static: false}) timerEl: ElementRef;
 
@@ -30,7 +32,8 @@ export class LetterExtractorComponent {
         private alertController: AlertController,
         private router: Router,
         private smartAudio: SmartAudio,
-        private appStore: Store
+        private appStore: Store,
+        private settings: SettingsService
     ) {
         this.appStore.pipe(select(selectLetters)).subscribe(letters => {
             this.listLetters = letters;
@@ -45,7 +48,7 @@ export class LetterExtractorComponent {
     }
 
     // noinspection JSUnusedGlobalSymbols
-    ionViewWillEnter() {
+    ionViewWillLeave() {
         this.timerActive = false;
         this.timerStr = null;
         this.currentLetter = null;
@@ -116,12 +119,12 @@ export class LetterExtractorComponent {
 
         await wait(350);
         this.timerNumber.nativeElement.parentElement.style.display = 'none';
-        this.startTimer();
+        await this.startTimer();
     }
 
-    private startTimer() {
+    private async startTimer() {
         function remainingTime(time) {
-            const t = Date.parse(time) - Date.parse(new Date().toString());
+            const t = time - (+moment());
             const sec = Math.floor((t / 1000) % 60);
             const min = Math.floor((t / 1000 / 60) % 60);
             return {
@@ -131,9 +134,11 @@ export class LetterExtractorComponent {
             };
         }
 
+        const countdownSeconds = +await this.settings.get(this.settings.COUNTDOWN_SECONDS);
+
         this.timerNumber.nativeElement.style.display = 'none';
-        const endTime = new Date();
-        endTime.setSeconds(endTime.getSeconds() + this.countdownSeconds);
+        const endTime = moment();
+        endTime.add(countdownSeconds + 1, 'second');
         const timer = this.timerEl.nativeElement;
         timer.style.display = '';
         const timeInterval = setInterval(() => {
