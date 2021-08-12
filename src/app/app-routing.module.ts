@@ -21,10 +21,8 @@ const routes: Routes = [
     },
     {
         path: 'ranking',
-        loadChildren: './pages/ranking/ranking.module#RankingPageModule'
+        loadChildren: () => import('./pages/ranking/ranking.module').then(m => m.RankingPageModule)
     },
-  { path: 'settings', loadChildren: './settings/settings.module#SettingsPageModule' }
-
 ];
 
 @NgModule({

@@ -1,11 +1,14 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { AppState } from '../../../reducer';
+import { Component, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { SetupPointsComponent } from './setup-points/setup-points.component';
-import { SharedService } from "../../services/shared.service";
-import { Actions } from '../../../actions';
+import { SharedService } from '../../services/shared.service';
+
+import { Player } from '../../components/player/player';
+import { selectPlayers } from '../../state/selectors';
+import { updatePoints } from '../../state/actions';
 
 @Component({
     selector: 'app-ranking',
@@ -21,15 +24,13 @@ export class RankingPage implements OnInit {
     public gameEnded: boolean = false;
 
     constructor(
-        private appStore: Store<AppState>,
+        private appStore: Store,
         private router: Router,
         private modalController: ModalController,
         private sharedService: SharedService,
-        private actions: Actions,
-    )
-    {
-        this.appStore.select('reducer').subscribe(state => {
-            this.playerList = state.players;
+    ) {
+        this.appStore.pipe(select(selectPlayers)).subscribe(players => {
+            this.playerList = players;
 
             this.sortPlayersByPoints(this.playerList);
         });
@@ -45,21 +46,19 @@ export class RankingPage implements OnInit {
 
             this.modalController.dismiss({
                 dismissed: true,
-            })
-        })
+            });
+        });
     }
 
-    ngOnInit()
-    {
+    ngOnInit() {
         // console.log(this.router.getCurrentNavigation());
-        if ( this.router.getCurrentNavigation().extras.state && this.router.getCurrentNavigation().extras.state.setupPoints ) {
+        if (this.router.getCurrentNavigation().extras.state && this.router.getCurrentNavigation().extras.state.setupPoints) {
             this.setupPointsMode = true;
             this.setupPoints();
         }
     }
 
-    private async setupPoints()
-    {
+    private async setupPoints() {
         const modal = await this.modalController.create({
             component: SetupPointsComponent,
             componentProps: {
@@ -71,33 +70,34 @@ export class RankingPage implements OnInit {
         await modal.present();
     }
 
-    private updatePointsTemp()
-    {
+    private updatePointsTemp() {
         const playerListUpdated = JSON.parse(JSON.stringify(this.playerList));
 
         playerListUpdated.map((player) => {
-            player.points += typeof this.pointsToUpdate[`player-${player.id}`] !== "undefined" ?
-                this.pointsToUpdate[`player-${player.id}`] : 0
+            player.points += typeof this.pointsToUpdate[`player-${player.id}`] !== 'undefined' ?
+                this.pointsToUpdate[`player-${player.id}`] : 0;
         });
 
         this.sortPlayersByPoints(playerListUpdated);
     }
 
-    private sortPlayersByPoints(playerList)
-    {
+    private sortPlayersByPoints(playerList) {
         this.playerListSorted = [...playerList];
 
         // Ordina per punteggio
         this.playerListSorted.sort((a, b) => {
-            if ( a.points < b.points ) return 1;
-            else if ( a.points > b.points ) return -1;
+            if (a.points < b.points) {
+                return 1;
+            } else if (a.points > b.points) {
+                return -1;
+            }
             return 0;
         });
     }
 
     nextRound() {
-        this.appStore.dispatch(this.actions.updatePoints(this.pointsToUpdate));
-        this.router.navigate(['/start'], {state: {resetState: true}})
+        this.appStore.dispatch(updatePoints({points: this.pointsToUpdate}));
+        this.router.navigate(['/start'], {state: {resetState: true}});
     }
 
     endGame() {

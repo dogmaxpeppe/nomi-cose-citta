@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { avatars } from '../avatar/Avatars';
 import { SharedService } from '../../../services/shared.service';
+import { Player } from '../player';
 
 @Component({
     selector: 'app-player-create',
@@ -24,11 +24,14 @@ export class PlayerCreateComponent implements OnInit {
 
     onSubmit() {
         if ( this.playerForm.valid ) {
-            this.sharedService.emitAddPlayerFun({
+            const newPlayer: Player = {
+                id: null,
                 name: this.playerForm.get('name').value,
                 avatar: this.playerForm.get('avatar').value,
                 points: null,
-            });
+            };
+
+            this.sharedService.emitAddPlayerFun(newPlayer);
         }
     }
 

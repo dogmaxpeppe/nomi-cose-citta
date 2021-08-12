@@ -1,7 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../../services/shared.service';
 import { NavParams } from '@ionic/angular';
+import { Player } from '../../../components/player/player';
 
 @Component({
     selector: 'app-setup-points',

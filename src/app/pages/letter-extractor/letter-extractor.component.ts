@@ -3,9 +3,10 @@ import { AlertController } from '@ionic/angular';
 import { SmartAudio } from '../../services/smart-audio.service';
 import { Router } from '@angular/router';
 
-import { Actions } from '../../../actions';
-import { Store } from '@ngrx/store';
-import { AppState } from '../../../reducer';
+import { select, Store } from '@ngrx/store';
+import { updateLetters } from '../../state/actions';
+
+import { selectLetters } from '../../state/selectors';
 
 @Component({
     selector: 'app-letter-extractor',
@@ -15,9 +16,9 @@ import { AppState } from '../../../reducer';
 export class LetterExtractorComponent {
 
     private listLetters = 'ABCDEFGHILMNOPQRSTUVZ';
-    private letters = [];
+    public letters = [];
     public currentLetter = null;
-    public timerActive: boolean = false;
+    public timerActive = false;
     public timerStr: string = null;
     @ViewChild('timerNumber', {static: false}) timerNumber: ElementRef;
     @ViewChild('timerStarted', {static: false}) timerEl: ElementRef;
@@ -26,11 +27,10 @@ export class LetterExtractorComponent {
         private alertController: AlertController,
         private router: Router,
         private smartAudio: SmartAudio,
-        private actions: Actions,
-        private appStore: Store<AppState>
+        private appStore: Store
     ) {
-        this.appStore.select('reducer').subscribe(state => {
-            this.listLetters = state.letters;
+        this.appStore.pipe(select(selectLetters)).subscribe(letters => {
+            this.listLetters = letters;
             this.letters = this.listLetters.split('');
         });
 
@@ -52,8 +52,7 @@ export class LetterExtractorComponent {
         }, 1500);
     }
 
-    ionViewWillEnter()
-    {
+    ionViewWillEnter() {
         this.timerActive = false;
         this.timerStr = null;
         this.currentLetter = null;
@@ -61,7 +60,7 @@ export class LetterExtractorComponent {
 
     private startRound(index) {
         this.letters.splice(index, 1);
-        this.appStore.dispatch(this.actions.updateLetters(this.letters.join('')));
+        this.appStore.dispatch(updateLetters({letters: this.letters.join('')}));
         this.timerActive = true;
         this.startCountDown();
     }
@@ -109,13 +108,13 @@ export class LetterExtractorComponent {
 
     private startTimer() {
         function remainingTime(time) {
-            let t = Date.parse(time) - Date.parse(new Date().toString());
-            let sec = Math.floor((t / 1000) % 60);
-            let min = Math.floor((t / 1000 / 60) % 60);
+            const t = Date.parse(time) - Date.parse(new Date().toString());
+            const sec = Math.floor((t / 1000) % 60);
+            const min = Math.floor((t / 1000 / 60) % 60);
             return {
-                'total': t,
-                'minutes': min,
-                'seconds': sec < 10 ? '0' + sec : sec
+                total: t,
+                minutes: min,
+                seconds: sec < 10 ? '0' + sec : sec
             };
         }
 
@@ -124,17 +123,18 @@ export class LetterExtractorComponent {
         endTime.setSeconds(endTime.getSeconds() + 1);
         const timer = this.timerEl.nativeElement;
         timer.style.display = '';
-        let timeInterval = setInterval(() => {
-            let t = remainingTime(endTime);
+        const timeInterval = setInterval(() => {
+            const t = remainingTime(endTime);
 
-            if ( t.total <= 10000 ) {
-                if ( t.total > 0 )
+            if (t.total <= 10000) {
+                if (t.total > 0) {
                     this.smartAudio.play('lastsecond');
+                }
 
-                if ( !timer.classList.contains('timer-last-ten-seconds') )
+                if (!timer.classList.contains('timer-last-ten-seconds')) {
                     timer.classList.add('timer-last-ten-seconds');
-            }
-            else if ( t.total <= 60000 && !timer.classList.contains('timer-less-minute') ) {
+                }
+            } else if (t.total <= 60000 && !timer.classList.contains('timer-less-minute')) {
                 this.smartAudio.play('lastminute');
                 timer.classList.add('timer-less-minute');
             }

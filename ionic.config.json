@@ -1,7 +1,7 @@
 {
-  "name": "nomiCoseCitta",
+  "name": "Nomi Cose Città",
   "integrations": {
-    "cordova": {}
+    "capacitor": {}
   },
   "type": "angular"
 }

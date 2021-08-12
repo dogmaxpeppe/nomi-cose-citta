@@ -4,7 +4,6 @@ import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 
 import { LetterExtractorComponent } from './letter-extractor.component';
-import { Actions } from '../../../actions';
 
 @NgModule({
     imports: [
@@ -17,7 +16,6 @@ import { Actions } from '../../../actions';
             }
         ]),
     ],
-    declarations: [LetterExtractorComponent],
-    providers: [Actions]
+    declarations: [LetterExtractorComponent]
 })
 export class LetterExtractorModule {}

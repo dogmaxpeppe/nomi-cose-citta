@@ -3,9 +3,10 @@ import { ModalController } from '@ionic/angular';
 import { PlayerCreateComponent } from '../../components/player/player-create/player-create.component';
 import { SharedService } from '../../services/shared.service';
 import { Router } from '@angular/router';
-import { Actions } from '../../../actions';
-import { Store } from '@ngrx/store';
-import { AppState } from '../../../reducer';
+import { select, Store } from '@ngrx/store';
+import { Player } from '../../components/player/player';
+import { addPlayer } from '../../state/actions';
+import { selectPlayers } from '../../state/selectors';
 
 @Component({
     selector: 'app-home',
@@ -19,19 +20,18 @@ export class HomePage {
         private modalController: ModalController,
         private sharedService: SharedService,
         private router: Router,
-        private actions: Actions,
-        private appStore: Store<AppState>
+        private appStore: Store
     ) {
-        this.appStore.select('reducer').subscribe(state => {
-            this.playerList = state.players;
+        this.appStore.pipe(select(selectPlayers)).subscribe(players => {
+            this.playerList = players;
         });
 
         sharedService.addPlayer$.subscribe(playerData => {
-            this.appStore.dispatch(this.actions.addPlayer(playerData));
+            this.appStore.dispatch(addPlayer({player: playerData}));
             this.modalController.dismiss({
                 dismissed: true,
-            })
-        })
+            });
+        });
     }
 
     createPlayer() {
@@ -46,8 +46,9 @@ export class HomePage {
     }
 
     startGame() {
-        if ( this.playerList.length )
+        if (this.playerList.length) {
             this.router.navigate(['/start']);
+        }
     }
 
 }
