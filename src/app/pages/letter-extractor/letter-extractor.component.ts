@@ -44,6 +44,7 @@ export class LetterExtractorComponent {
         this.smartAudio.preload('start', 'assets/audio/start.mp3');
     }
 
+    // noinspection JSUnusedGlobalSymbols
     ionViewWillEnter() {
         this.timerActive = false;
         this.timerStr = null;
@@ -116,32 +117,6 @@ export class LetterExtractorComponent {
         await wait(350);
         this.timerNumber.nativeElement.parentElement.style.display = 'none';
         this.startTimer();
-
-        // setTimeout(() => {
-        //     hideAndChange(this.timerNumber, '2');
-        //     setTimeout(() => {
-        //         this.smartAudio.play('countdown-beep');
-        //         show(this.timerNumber);
-        //         setTimeout(() => {
-        //             hideAndChange(this.timerNumber, '1');
-        //             setTimeout(() => {
-        //                 this.smartAudio.play('countdown-beep');
-        //                 show(this.timerNumber);
-        //                 setTimeout(() => {
-        //                     hideAndChange(this.timerNumber, 'VIA!');
-        //                     this.smartAudio.play('start');
-        //                     setTimeout(() => {
-        //                         show(this.timerNumber, 'icon-letter-char-timer-last');
-        //                         setTimeout(() => {
-        //                             this.timerNumber.nativeElement.parentElement.style.display = 'none';
-        //                             this.startTimer();
-        //                         }, 350);
-        //                     }, 50);
-        //                 }, 950);
-        //             }, 50);
-        //         }, 950);
-        //     }, 50);
-        // }, 1000);
     }
 
     private startTimer() {

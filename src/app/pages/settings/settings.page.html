@@ -1,9 +1,17 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Settings</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>Settings</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+    <ion-list>
+        <ion-item lines="full">
+            <ion-icon slot="start" name="moon"></ion-icon>
+            <ion-label>
+                Disattiva Tema Scuro
+            </ion-label>
+            <ion-toggle id="themeToggle" slot="end" checked (ionChange)="changeProp($event)"></ion-toggle>
+        </ion-item>
+    </ion-list>
 </ion-content>
