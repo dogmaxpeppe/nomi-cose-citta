@@ -1,0 +1,4 @@
+// Workaround to disable original tooltip of icons
+ion-icon {
+  pointer-events: none;
+}

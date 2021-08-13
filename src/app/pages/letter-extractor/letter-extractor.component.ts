@@ -138,7 +138,7 @@ export class LetterExtractorComponent {
 
         this.timerNumber.nativeElement.style.display = 'none';
         const endTime = moment();
-        endTime.add(countdownSeconds + 1, 'second');
+        endTime.add(countdownSeconds + 2, 'second');
         const timer = this.timerEl.nativeElement;
         timer.style.display = '';
         const timeInterval = setInterval(() => {
@@ -159,7 +159,7 @@ export class LetterExtractorComponent {
 
             this.timerStr = `${t.minutes}:${t.seconds}`;
 
-            if (t.total <= 0) {
+            if (t.total <= 1000) {
                 this.smartAudio.play('timeout');
                 clearInterval(timeInterval);
                 setTimeout(() => {

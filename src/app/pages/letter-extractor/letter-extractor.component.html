@@ -1,13 +1,13 @@
 <ion-header>
     <ion-toolbar>
-        <ion-title>Estrai o scegli una lettera</ion-title>
+        <ion-title>{{!timerActive ? 'Estrai o scegli una lettera' : null}}</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
     <div *ngIf="!timerActive; else timer">
         <div *ngIf="currentLetter; else availableChars" class="icon-letter-single">
-            <span class="icon-letter-char">{{ currentLetter }}</span>
+            <span class="icon-letter-char-animated">{{ currentLetter }}</span>
         </div>
         <ng-template #availableChars>
             <div>
@@ -16,12 +16,6 @@
                 </div>
             </div>
         </ng-template>
-        <div class="extract-button-div">
-            <ion-button *ngIf="currentLetter" class="extract-button" color="secondary" (click)="resetLetter()">Seleziona
-                Lettera
-            </ion-button>
-            <ion-button class="extract-button" color="primary" (click)="extractLetter()">Estrai Lettera</ion-button>
-        </div>
     </div>
     <ng-template #timer>
         <div class="icon-letter-timer">
@@ -30,3 +24,10 @@
         <div #timerStarted class="timer" style="display: none">{{ timerStr }}</div>
     </ng-template>
 </ion-content>
+
+<ion-footer *ngIf="!timerActive" class="ion-no-border">
+    <ion-button *ngIf="currentLetter" color="secondary" expand="full" (click)="resetLetter()">
+        Scegli Manualmente
+    </ion-button>
+    <ion-button color="primary" expand="full" (click)="extractLetter()">Estrai Lettera</ion-button>
+</ion-footer>

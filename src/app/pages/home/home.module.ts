@@ -5,7 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 
 import { HomePage } from './home.page';
-import { PlayerCreateComponent } from '../../components/player/player-create/player-create.component';
+import { PlayerFormComponent } from '../../components/player/player-form/player-form.component';
 
 import { PlayerModule } from '../../components/player/player.module';
 
@@ -24,6 +24,6 @@ import { PlayerModule } from '../../components/player/player.module';
         PlayerModule,
     ],
     declarations: [HomePage],
-    entryComponents: [PlayerCreateComponent],
+    entryComponents: [PlayerFormComponent],
 })
 export class HomePageModule {}

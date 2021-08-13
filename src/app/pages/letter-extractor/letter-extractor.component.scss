@@ -17,7 +17,7 @@
 .icon-letter {
     @extend %icon-letter-base;
     display: inline-block;
-    font-size: 5vh;
+    font-size: 6vh;
     width: 12vh;
     margin: 2%;
 }
@@ -32,9 +32,9 @@
     width: 100%;
 }
 
-.icon-letter-char {
+.icon-letter-char-animated {
     opacity: 0;
-    @include iconAnimation(0.5s, 0.5s);
+    @include iconAnimation(0.5s, 0.3s);
 }
 
 .icon-letter-timer {
@@ -51,17 +51,6 @@
 .icon-letter-char-timer-last {
     opacity: 0;
     @include iconAnimation(0.35s, 0s, zoomInWithFadeout)
-}
-
-
-.extract-button-div {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-}
-
-.extract-button {
-    width: 100%;
 }
 
 .timer {

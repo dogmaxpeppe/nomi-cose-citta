@@ -1,17 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { SettingsService } from './services/settings.service';
-
+import { Router } from '@angular/router';
 @Component({
     selector: 'app-root',
     templateUrl: 'app.component.html',
     styleUrls: ['app.component.scss']
 })
-export class AppComponent {
-    public appPages = [
+export class AppComponent implements OnInit {
+    /*public appPages = [
         {
             title: 'Home',
             url: '/home',
@@ -22,22 +21,26 @@ export class AppComponent {
             url: '/settings',
             icon: 'settings'
         }
-    ];
+    ];*/
 
     constructor(
         private platform: Platform,
         private splashScreen: SplashScreen,
         private statusBar: StatusBar,
-        private settings: SettingsService
+        private router: Router
     ) {
         this.initializeApp();
+    }
+
+    ngOnInit(): void {
+        console.log(this.router.getCurrentNavigation());
     }
 
     initializeApp() {
         // Init Platform
         this.platform.ready().then(() => {
             this.statusBar.styleDefault();
-            this.splashScreen.hide();
+            // this.splashScreen.hide();
         });
     }
 }

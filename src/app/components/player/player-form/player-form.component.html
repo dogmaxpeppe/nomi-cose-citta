@@ -8,20 +8,21 @@
         </ion-item>
         <ion-item>
             <ion-label position="stacked">Avatar</ion-label>
-            <ion-row>
-                <ion-segment (ionChange)="selectAvatar($event.detail.value)">
+                <ion-segment scrollable="true" (ionChange)="selectAvatar($event.detail.value)">
                     <ion-segment-button *ngFor="let avatar of avatars" value="{{ avatar.id }}">
-                        <app-avatar [avatar]="avatar" ></app-avatar>
+                        <app-avatar [avatar]="avatar"></app-avatar>
                     </ion-segment-button>
                 </ion-segment>
-            </ion-row>
         </ion-item>
     </ion-list>
     <div class="ion-padding">
-        <ion-button
-                expand="block"
-                type="submit"
-                class="ion-no-margin"
-                [disabled]="!playerForm.valid">Crea Giocatore</ion-button>
+        <ion-button expand="block"
+                    type="submit"
+                    [disabled]="!playerForm.valid">
+            {{!editMode ? 'Crea Giocatore' : 'Modifica Giocatore'}}
+        </ion-button>
+        <ion-button expand="block" color="danger" (click)="dismiss()">
+            Annulla
+        </ion-button>
     </div>
 </form>

@@ -8,7 +8,8 @@ import { SharedService } from '../../services/shared.service';
 
 import { Player } from '../../components/player/player';
 import { selectPlayers } from '../../state/selectors';
-import { updatePoints } from '../../state/actions';
+import { updatePoints, newGame } from '../../state/actions';
+import { SmartAudio } from '../../services/smart-audio.service';
 
 @Component({
     selector: 'app-ranking',
@@ -28,6 +29,7 @@ export class RankingPage implements OnInit {
         private router: Router,
         private modalController: ModalController,
         private sharedService: SharedService,
+        private smartAudio: SmartAudio,
     ) {
         this.appStore.pipe(select(selectPlayers)).subscribe(players => {
             this.playerList = players;
@@ -48,17 +50,23 @@ export class RankingPage implements OnInit {
                 dismissed: true,
             });
         });
+
+        this.smartAudio.preload('tada', 'assets/audio/tada.mp3');
     }
 
     ngOnInit() {
-        // console.log(this.router.getCurrentNavigation());
         if (this.router.getCurrentNavigation().extras.state && this.router.getCurrentNavigation().extras.state.setupPoints) {
             this.setupPointsMode = true;
             this.setupPoints();
         }
     }
 
-    private async setupPoints() {
+    ionViewWillLeave() {
+        // Resetta i punteggi da mostrare
+        this.pointsToUpdate = [];
+    }
+
+    public async setupPoints() {
         const modal = await this.modalController.create({
             component: SetupPointsComponent,
             componentProps: {
@@ -102,6 +110,13 @@ export class RankingPage implements OnInit {
     }
 
     endGame() {
+        this.gameEnded = true;
+        this.smartAudio.play('tada');
+    }
 
+    newGame() {
+        this.router.navigate(['/home'], {state: {resetState: true}});
+        this.appStore.dispatch(newGame());
+        this.gameEnded = false;
     }
 }

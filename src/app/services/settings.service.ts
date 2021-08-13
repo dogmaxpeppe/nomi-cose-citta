@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Storage } from '@ionic/storage-angular';
+import { ThemeDetection } from '@ionic-native/theme-detection';
 import { environment, settingsLabels } from '../../environments/environment';
 
 @Injectable({
@@ -11,7 +12,9 @@ export class SettingsService {
     public readonly DARK_THEME_ENABLED = settingsLabels.DARK_THEME_ENABLED;
     public readonly COUNTDOWN_SECONDS = settingsLabels.COUNTDOWN_SECONDS;
 
-    constructor(private storage: Storage) {
+    constructor(
+        private storage: Storage,
+    ) {
         this.init();
     }
 
@@ -31,11 +34,29 @@ export class SettingsService {
     // Create and expose methods that users of this service can
     // call, for example:
     public set(key: string, value: any) {
-        this._storage?.set(key, value).then(value => {
+        this._storage?.set(key, value).then(async value => {
             console.log('SAVED SETTING =>', key, value);
 
             // Se la chiave riguarda la toggleDarkMode, abilita o disabilita il toggle
             if (key === this.DARK_THEME_ENABLED) {
+                // Se il valore corrente è NULL, vuol dire che non è stato ancora settato un tema.
+                // In tal caso, controlla qual è il predefinito del cellulare
+                if (value === null) {
+                    try {
+                        const themeDetectionIsAvailable = await ThemeDetection.isAvailable();
+                        if (themeDetectionIsAvailable.value) {
+                            const darkModeIsEnable = await ThemeDetection.isDarkModeEnabled();
+                            value = darkModeIsEnable.value;
+
+                            // Abilita, eventualmente, la Dark Mode
+                            SettingsService.toggleDarkMode(value);
+                        }
+                    } catch (e) {
+                        console.error(e);
+                    }
+
+                }
+
                 SettingsService.toggleDarkMode(value);
             }
         });

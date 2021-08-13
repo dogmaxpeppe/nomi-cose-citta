@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { PlayerCreateComponent } from '../../components/player/player-create/player-create.component';
+import { PlayerFormComponent } from '../../components/player/player-form/player-form.component';
 import { SharedService } from '../../services/shared.service';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Player } from '../../components/player/player';
 import { addPlayer } from '../../state/actions';
 import { selectPlayers } from '../../state/selectors';
+import { SettingsService } from '../../services/settings.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-home',
@@ -15,23 +17,31 @@ import { selectPlayers } from '../../state/selectors';
 })
 export class HomePage {
     playerList: Array<Player> = [];
+    private addPlayer$: Subscription;
+
 
     constructor(
         private modalController: ModalController,
         private sharedService: SharedService,
         private router: Router,
-        private appStore: Store
+        private appStore: Store,
+        private settings: SettingsService
     ) {
         this.appStore.pipe(select(selectPlayers)).subscribe(players => {
             this.playerList = players;
         });
 
-        sharedService.addPlayer$.subscribe(playerData => {
+        this.addPlayer$ = this.sharedService.addPlayer$.subscribe(playerData => {
             this.appStore.dispatch(addPlayer({player: playerData}));
             this.modalController.dismiss({
                 dismissed: true,
             });
         });
+    }
+
+    ionViewWillLeave() {
+        // Fix per evitare che, passando al settings, ripeta più volte il subscribe ad addPlayer.
+        this.addPlayer$.unsubscribe();
     }
 
     createPlayer() {
@@ -40,7 +50,7 @@ export class HomePage {
 
     async presentModal() {
         const modal = await this.modalController.create({
-            component: PlayerCreateComponent
+            component: PlayerFormComponent
         });
         return await modal.present();
     }
@@ -51,4 +61,7 @@ export class HomePage {
         }
     }
 
+    openOptions() {
+        this.router.navigate(['/settings']);
+    }
 }

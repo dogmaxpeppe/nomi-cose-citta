@@ -1,19 +1,26 @@
-<div *ngIf="!players.length; else playersDiv">
+<ion-item *ngIf="!players.length; else playersDiv">
     <p>La lista dei giocatori è vuota! Aggiungi un nuovo giocatore.</p>
-</div>
+</ion-item>
 <ng-template #playersDiv>
-<!--    <ion-list>-->
-<!--        <ion-header>-->
-<!--            Lista giocatori registrati-->
-<!--        </ion-header>-->
-<!--    </ion-list>-->
-    <ion-item *ngFor="let player of players">
+    <ion-item *ngFor="let player of players; let i = index">
+        <ion-avatar *ngIf="showMedals && (i+1) <= 3">
+            <ion-img [src]="'/assets/images/medal_' + (i+1) + '.png'"></ion-img>
+        </ion-avatar>
         <ion-avatar slot="start">
             <app-avatar [idAvatar]="player.avatar"></app-avatar>
         </ion-avatar>
         <ion-label>
-            <h1>{{ player.name }}</h1>
-            <h2 *ngIf="player.points !== null">{{ player.points }}</h2>
+            <h2>{{ player.name }}</h2>
+            <h3 *ngIf="player.points !== null">{{ player.points }}</h3>
         </ion-label>
+        <ion-button color="secondary" fill="none" title="Modifica" (click)="editPlayer(player)">
+            <ion-icon class="ion-color ion-color-secondary" size="medium" name="create"></ion-icon>
+        </ion-button>
+        <ion-button color="danger" fill="none" title="Cancella" (click)="deletePlayer(player)">
+            <ion-icon class="ion-color ion-color-danger" size="medium" name="trash-outline"></ion-icon>
+        </ion-button>
+    </ion-item>
+    <ion-item *ngIf="showMedals">
+        <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
     </ion-item>
 </ng-template>

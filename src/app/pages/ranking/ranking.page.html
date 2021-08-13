@@ -1,13 +1,42 @@
 <ion-header>
     <ion-toolbar>
-        <ion-title>Classifica</ion-title>
+        <ion-title *ngIf="!gameEnded">Classifica Provvisoria</ion-title>
+        <ion-title *ngIf="gameEnded">Classifica Definitiva</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <app-player-list [players]="playerListSorted"></app-player-list>
-    <ion-button *ngIf="setupPointsMode" (click)="setupPoints()">Imposta Punteggi</ion-button>
-    <ion-button (click)="nextRound()">Prossimo Round</ion-button>
-    <ion-button *ngIf="!gameEnded" (click)="endGame()">Termina Partita</ion-button>
-    <ion-button *ngIf="gameEnded" (click)="nextRound()">Nuova Partita</ion-button>
+    <app-player-list [players]="playerListSorted" [showMedals]="gameEnded"></app-player-list>
+
 </ion-content>
+
+<ion-footer class="ion-no-border">
+    <ion-button *ngIf="setupPointsMode && !gameEnded"
+                color="primary"
+                expand="full"
+                (click)="setupPoints()">
+        <ion-icon name="create-outline"></ion-icon>&nbsp;Imposta Punteggi
+    </ion-button>
+
+    <ion-button *ngIf="!gameEnded"
+                color="success"
+                expand="full"
+                (click)="nextRound()">
+        <ion-icon name="arrow-redo-outline"></ion-icon>&nbsp;Prossimo Round
+    </ion-button>
+
+
+    <ion-button *ngIf="!gameEnded"
+                color="danger"
+                expand="full"
+                (click)="endGame()">
+        <ion-icon name="stop-circle-outline"></ion-icon>&nbsp;Termina Partita
+    </ion-button>
+
+    <ion-button *ngIf="gameEnded"
+                color="primary"
+                expand="full"
+                (click)="newGame()">
+        <ion-icon name="refresh-outline"></ion-icon>&nbsp;Nuova Partita
+    </ion-button>
+</ion-footer>

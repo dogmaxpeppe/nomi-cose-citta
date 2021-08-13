@@ -50,7 +50,7 @@ export class SettingsPage implements OnInit {
         } else {
             const toast = await this.toastController.create({
                 message: `Selezionare una durata compresa tra ${min} e ${max} secondi. Altri valori non saranno salvati.`,
-                duration: 2000
+                duration: 500
             });
             await toast.present();
         }

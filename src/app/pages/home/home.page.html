@@ -1,23 +1,33 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Inizia Partita - Crea giocatori
-    </ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>
+            Inizia Partita - Crea giocatori
+        </ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        <app-player-list [players]="playerList"></app-player-list>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-button color="primary" (click)="createPlayer()">Crea Giocatore</ion-button>
-        <ion-button color="success" disabled="{{ !playerList.length }}" (click)="startGame()">Inizia partita!</ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <app-player-list [players]="playerList"></app-player-list>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-content>
+
+<ion-footer class="ion-no-border">
+    <ion-button color="primary" expand="full" (click)="createPlayer()">
+        <ion-icon name="person-add-outline"></ion-icon>
+        &nbsp;Crea Giocatore
+    </ion-button>
+    <ion-button color="success" expand="full" disabled="{{ !playerList.length }}" (click)="startGame()">
+        <ion-icon name="play-circle-outline"></ion-icon>
+        &nbsp;Inizia partita!
+    </ion-button>
+
+    <ion-button color="light" expand="full" (click)="openOptions()">
+        <ion-icon name="settings-outline"></ion-icon>
+        &nbsp;Opzioni
+    </ion-button>
+</ion-footer>

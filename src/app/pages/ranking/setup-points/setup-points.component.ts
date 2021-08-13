@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../../services/shared.service';
-import { NavParams } from '@ionic/angular';
+import { ModalController, NavParams } from '@ionic/angular';
 import { Player } from '../../../components/player/player';
 
 @Component({
@@ -16,6 +16,7 @@ export class SetupPointsComponent {
     playerPointsForm: FormGroup;
     constructor(
         private sharedService: SharedService,
+        private modalController: ModalController,
         navParams: NavParams
     ) {
         this.players = navParams.get('players');
@@ -39,5 +40,9 @@ export class SetupPointsComponent {
 
             this.sharedService.emitUpdatePointsFun(data);
         }
+    }
+
+    dismiss() {
+        this.modalController.dismiss();
     }
 }

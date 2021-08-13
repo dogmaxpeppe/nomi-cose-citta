@@ -1,4 +1,5 @@
 export const ADD_PLAYER = 'ADD_PLAYER';
+export const DELETE_PLAYER = 'DELETE_PLAYER';
 export const UPDATE_LETTERS = 'UPDATE_LETTERS';
 export const UPDATE_POINTS = 'UPDATE_POINTS';
 export const NEW_GAME = 'NEW_GAME';
@@ -7,6 +8,11 @@ import { Player } from '../components/player/player';
 
 export const addPlayer = createAction(
     ADD_PLAYER,
+    props<{ player: Player }>()
+);
+
+export const deletePlayer = createAction(
+    DELETE_PLAYER,
     props<{ player: Player }>()
 );
 
