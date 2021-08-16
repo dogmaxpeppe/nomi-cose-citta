@@ -24,7 +24,7 @@ export class SettingsService {
         // Add Settings Params in storage, if they doesn't exists
         const settings = environment.settings;
         for (const key in settings) {
-            if (!await this.get(key)) {
+            if (await this.get(key) === null) {
                 await this.set(key, settings[key]);
             }
         }
@@ -41,7 +41,8 @@ export class SettingsService {
     public async getAllSettings(): Promise<Settings> {
         return {
             theme: await this.getTheme(),
-            countdown: await this.getCountdown()
+            countdown: await this.getCountdown(),
+            sound: await this.getSoundStatus(),
         };
     }
 
@@ -51,6 +52,10 @@ export class SettingsService {
 
     public async getCountdown(): Promise<number> {
         return await this.get('countdown');
+    }
+
+    public async getSoundStatus() {
+        return await this.get('sound');
     }
 
     public setTheme(value: ThemeTypes) {
@@ -65,6 +70,10 @@ export class SettingsService {
 
     public setCountdown(value: number) {
         this.set('countdown', value);
+    }
+
+    public toggleSound(value: boolean) {
+        this.set('sound', value);
     }
 
     // Create and expose methods that users of this service can

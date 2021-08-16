@@ -1,37 +1,51 @@
+const AVATARS_PATH = 'assets/images/avatars/';
+
 export const avatars = [{
     id: 1,
-    icon: 'person-circle-outline',
-    color: 'primary'
+    icon: `${AVATARS_PATH}256_1.png`,
 }, {
     id: 2,
-    icon: 'person-circle-outline',
-    color: 'secondary'
-},{
+    icon: `${AVATARS_PATH}256_2.png`,
+}, {
     id: 3,
-    icon: 'person-circle-outline',
-    color: 'tertiary'
-},{
+    icon: `${AVATARS_PATH}256_3.png`,
+}, {
     id: 4,
-    icon: 'person-circle-outline',
-    color: 'success'
-},{
+    icon: `${AVATARS_PATH}256_4.png`,
+}, {
     id: 5,
-    icon: 'person-circle-outline',
-    color: 'warning'
-},{
+    icon: `${AVATARS_PATH}256_5.png`,
+}, {
     id: 6,
-    icon: 'person-circle-outline',
-    color: 'danger'
-},{
+    icon: `${AVATARS_PATH}256_6.png`,
+}, {
     id: 7,
-    icon: 'person-circle-outline',
-    color: 'light'
-},{
+    icon: `${AVATARS_PATH}256_7.png`,
+}, {
     id: 8,
-    icon: 'person-circle-outline',
-    color: 'medium'
-},{
+    icon: `${AVATARS_PATH}256_8.png`,
+}, {
     id: 9,
-    icon: 'person-circle-outline',
-    color: 'dark'
+    icon: `${AVATARS_PATH}256_9.png`,
+}, {
+    id: 10,
+    icon: `${AVATARS_PATH}256_10.png`,
+}, {
+    id: 11,
+    icon: `${AVATARS_PATH}256_11.png`,
+}, {
+    id: 12,
+    icon: `${AVATARS_PATH}256_12.png`,
+}, {
+    id: 13,
+    icon: `${AVATARS_PATH}256_13.png`,
+}, {
+    id: 14,
+    icon: `${AVATARS_PATH}256_14.png`,
+}, {
+    id: 15,
+    icon: `${AVATARS_PATH}256_15.png`,
+}, {
+    id: 16,
+    icon: `${AVATARS_PATH}256_16.png`,
 },];

@@ -13,12 +13,14 @@
             <h2>{{ player.name }}</h2>
             <h3 *ngIf="player.points !== null">{{ player.points }}</h3>
         </ion-label>
-        <ion-button color="secondary" fill="none" title="Modifica" (click)="editPlayer(player)">
-            <ion-icon class="ion-color ion-color-secondary" size="medium" name="create"></ion-icon>
-        </ion-button>
-        <ion-button color="danger" fill="none" title="Cancella" (click)="deletePlayer(player)">
-            <ion-icon class="ion-color ion-color-danger" size="medium" name="trash-outline"></ion-icon>
-        </ion-button>
+        <div *ngIf="!showMedals">
+            <ion-button color="secondary" fill="none" title="Modifica" (click)="editPlayer(player)">
+                <ion-icon class="ion-color ion-color-secondary" size="medium" name="create"></ion-icon>
+            </ion-button>
+            <ion-button color="danger" fill="none" title="Cancella" (click)="deletePlayer(player)">
+                <ion-icon class="ion-color ion-color-danger" size="medium" name="trash-outline"></ion-icon>
+            </ion-button>
+        </div>
     </ion-item>
     <ion-item *ngIf="showMedals">
         <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>

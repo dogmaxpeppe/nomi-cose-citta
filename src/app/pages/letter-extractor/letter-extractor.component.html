@@ -1,11 +1,11 @@
 <ion-header>
     <ion-toolbar>
-        <ion-title>{{!timerActive ? 'Estrai o scegli una lettera' : null}}</ion-title>
+        <ion-title>{{!timerStarted ? 'Estrai o scegli una lettera' : null}}</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <div *ngIf="!timerActive; else timer" class="letters">
+    <div *ngIf="!timerStarted; else timerDiv" class="letters">
         <div *ngIf="currentLetter; else availableChars" class="icon-letter-single">
             <span class="icon-letter-char-animated">{{ currentLetter }}</span>
         </div>
@@ -17,16 +17,32 @@
             </div>
         </ng-template>
     </div>
-    <ng-template #timer>
+    <ng-template #timerDiv>
         <div class="icon-letter-timer">
             <span #timerNumber class="icon-letter-char-timer">3</span>
         </div>
-        <div #timerStarted class="timer" [class.timer-small]="timerStr?.length > 4"
-             style="display: none">{{ timerStr }}</div>
+        <div #timerStarted class="timer"
+             style="display: none">
+            <countdown #cd [config]="countdownConfig"
+                       [class.timer-less-minute]="lastMinute"
+                       [class.timer-last-ten-seconds]="lastTenSeconds"
+                       (event)="handleCountdownEvent($event)">
+            </countdown>
+            <div class="timer-icons">
+                <ion-icon name="refresh-circle-outline" (click)="restartTimer()"></ion-icon>
+                <ion-icon [name]="!timerPaused ? 'pause-circle-outline' : 'play-circle-outline'"
+                          (click)="toggleTimer()"></ion-icon>
+                <ion-icon name="stop-circle-outline" (click)="stopTimer()"></ion-icon>
+            </div>
+
+        </div>
+        <div>
+
+        </div>
     </ng-template>
 </ion-content>
 
-<ion-footer *ngIf="!timerActive" class="ion-no-border">
+<ion-footer *ngIf="!timerStarted" class="ion-no-border">
     <ion-button *ngIf="currentLetter" color="secondary" expand="full" (click)="resetLetter()">
         Scegli Manualmente
     </ion-button>

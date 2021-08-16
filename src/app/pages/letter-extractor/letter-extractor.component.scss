@@ -55,12 +55,16 @@
 }
 
 .timer {
-    @extend .icon-letter-timer;
-    font-size: 15vh;
+  @extend .icon-letter-timer;
+  font-size: 15vh;
 
-    .timer-smaller {
-        font-size: 10vh;
-    }
+  .timer-smaller {
+    font-size: 10vh;
+  }
+
+  .timer-icons {
+    font-size: 10vh;
+  }
 }
 
 .timer-less-minute {

@@ -10,7 +10,7 @@
 <ion-content>
     <ion-list>
         <ion-item lines="full">
-            <ion-icon slot="start" name="moon"></ion-icon>
+            <ion-icon slot="start" name="color-palette-outline"></ion-icon>
             <ion-label>
                 Seleziona Tema
             </ion-label>
@@ -33,9 +33,20 @@
                        max="99999"
                        type="number"
                        step="1"
-                       debounce="300"
+                       debounce="500"
                        [value]="loadedSettings?.countdown"
                        (ionChange)="changeProp($event)"></ion-input>
+        </ion-item>
+        <ion-item lines="full">
+            <ion-icon slot="start" name="volume-high-outline"></ion-icon>
+            <ion-label>
+                Attiva Suoni
+            </ion-label>
+            <ion-toggle id="toggleSound"
+                        color="primary"
+                        [checked]="loadedSettings?.sound"
+                        (ionChange)="changeProp($event)"
+            ></ion-toggle>
         </ion-item>
     </ion-list>
 </ion-content>

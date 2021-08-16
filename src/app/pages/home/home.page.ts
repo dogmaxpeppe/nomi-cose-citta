@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { PlayerFormComponent } from '../../components/player/player-form/player-form.component';
 import { SharedService } from '../../services/shared.service';
 import { Router } from '@angular/router';
@@ -25,6 +25,7 @@ export class HomePage {
         private router: Router,
         private appStore: Store,
         private shared: SharedService,
+        private alertController: AlertController
     ) {
         this.appStore.pipe(select(selectPlayers)).subscribe(players => {
             this.playerList = players;
@@ -68,5 +69,18 @@ export class HomePage {
 
     openOptions() {
         this.router.navigate(['/settings']);
+    }
+
+    async closeApp() {
+        const alert = await this.alertController.create({
+            message: `Sei sicuro di voler chiudere l'app?`,
+            buttons: [{
+                text: 'Sì', handler: () => {
+                    navigator['app'].exitApp();
+                }
+            }, 'No']
+        });
+
+        await alert.present();
     }
 }

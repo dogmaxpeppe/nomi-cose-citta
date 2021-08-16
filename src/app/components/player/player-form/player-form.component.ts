@@ -3,8 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { avatars } from '../avatar/Avatars';
 import { SharedService } from '../../../services/shared.service';
 import { Player } from '../player';
-import { Store, select } from '@ngrx/store';
-import { addPlayer } from '../../../state/actions';
 import { ModalController } from '@ionic/angular';
 
 @Component({

@@ -3,8 +3,13 @@ import { addPlayer, deletePlayer, newGame, updateLetters, updatePoints } from '.
 import { Player } from '../components/player/player';
 
 const initialLetters: string = 'ABCDEFGHILMNOPQRSTUVZ';
-const initialPlayers: Player[] = [];
 // const initialPlayers: Player[] = [];
+const initialPlayers: Player[] = [{
+    id: 1,
+    name: 'Player1',
+    avatar: 1,
+    points: null
+}];
 
 export const initialState = {
     players: initialPlayers,

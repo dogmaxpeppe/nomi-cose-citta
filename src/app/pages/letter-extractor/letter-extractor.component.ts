@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { SmartAudio } from '../../services/smart-audio.service';
 import { Router } from '@angular/router';
@@ -9,24 +9,27 @@ import { updateLetters } from '../../state/actions';
 import { selectLetters } from '../../state/selectors';
 import { SettingsService } from '../../services/settings.service';
 
-import * as moment from 'moment';
+import { CountdownComponent, CountdownConfig, CountdownEvent } from 'ngx-countdown';
 
 @Component({
     selector: 'app-letter-extractor',
     templateUrl: './letter-extractor.component.html',
     styleUrls: ['./letter-extractor.component.scss'],
 })
-export class LetterExtractorComponent {
+export class LetterExtractorComponent implements OnInit {
 
     private listLetters = 'ABCDEFGHILMNOPQRSTUVZ';
     public letters = [];
     public currentLetter = null;
-    public timerActive = false;
-    public timerStr: string = null;
+    public timerStarted: boolean;
+    public timerPaused: boolean;
 
-    public countdownSeconds;
+    public countdownConfig: CountdownConfig;
+    @ViewChild('cd', {static: false}) public countdown: CountdownComponent;
     @ViewChild('timerNumber', {static: false}) timerNumber: ElementRef;
     @ViewChild('timerStarted', {static: false}) timerEl: ElementRef;
+    public lastMinute = false;
+    public lastTenSeconds = false;
 
     constructor(
         private alertController: AlertController,
@@ -47,11 +50,23 @@ export class LetterExtractorComponent {
         this.smartAudio.preload('start', 'assets/audio/start.mp3');
     }
 
+    async ngOnInit() {
+        const leftTime = await this.settings.getCountdown();
+
+        this.countdownConfig = {
+            demand: true,
+            leftTime,
+            format: 'mm:ss',
+            notify: 0
+        };
+    }
+
     // noinspection JSUnusedGlobalSymbols
     ionViewWillLeave() {
-        this.timerActive = false;
-        this.timerStr = null;
+        this.timerStarted = false;
         this.currentLetter = null;
+        this.lastMinute = false;
+        this.lastTenSeconds = false;
     }
 
     extractLetter(selectedLetterIndex: number = null) {
@@ -61,10 +76,18 @@ export class LetterExtractorComponent {
             : selectedLetterIndex;
         this.currentLetter = this.letters[indexLetter];
 
-        setTimeout(() => {
-            this.presentAlert(this.currentLetter, () => {
+        setTimeout(async () => {
+            const confirmHandler = () => {
                 this.startRound(indexLetter);
+            };
+
+            const alert = await this.alertController.create({
+                header: `Lettera ${this.currentLetter}`,
+                message: `È stata pescata la lettera ${this.currentLetter}. Giocare con questa lettera?`,
+                buttons: [{text: 'Sì', handler: confirmHandler}, 'No']
             });
+
+            await alert.present();
         }, 1500);
     }
 
@@ -75,7 +98,7 @@ export class LetterExtractorComponent {
     private startRound(index) {
         this.letters.splice(index, 1);
         this.appStore.dispatch(updateLetters({letters: this.letters.join('')}));
-        this.timerActive = true;
+        this.timerStarted = true;
         this.startCountDown();
     }
 
@@ -123,60 +146,90 @@ export class LetterExtractorComponent {
     }
 
     private async startTimer() {
-        function remainingTime(time) {
-            const t = time - (+moment());
-            const sec = Math.floor((t / 1000) % 60);
-            const min = Math.floor((t / 1000 / 60) % 60);
-            return {
-                total: t,
-                minutes: min,
-                seconds: sec < 10 ? '0' + sec : sec
-            };
-        }
-
-        const countdownSeconds = await this.settings.getCountdown();
-
         this.timerNumber.nativeElement.style.display = 'none';
-        const endTime = moment();
-        endTime.add(countdownSeconds + 2, 'second');
+
         const timer = this.timerEl.nativeElement;
         timer.style.display = '';
-        const timeInterval = setInterval(() => {
-            const t = remainingTime(endTime);
 
-            if (t.total <= 10000) {
-                if (t.total > 0) {
-                    this.smartAudio.play('lastsecond');
-                }
-
-                if (!timer.classList.contains('timer-last-ten-seconds')) {
-                    timer.classList.add('timer-last-ten-seconds');
-                }
-            } else if (t.total <= 60000 && !timer.classList.contains('timer-less-minute')) {
-                this.smartAudio.play('lastminute');
-                timer.classList.add('timer-less-minute');
-            }
-
-            this.timerStr = `${t.minutes}:${t.seconds}`;
-
-            if (t.total <= 1000) {
-                this.smartAudio.play('timeout');
-                clearInterval(timeInterval);
-                setTimeout(() => {
-                    this.router.navigate(['/ranking'], {state: {setupPoints: true}});
-                });
-            }
-        }, 1000);
+        this.countdown.begin();
     }
 
-    async presentAlert(letter: string, confirmHandler) {
+    private endRound() {
+        this.countdown.stop();
+        this.smartAudio.play('timeout');
+        this.router.navigate(['/ranking'], {state: {setupPoints: true}});
+    }
+
+    public toggleTimer() {
+        this.timerPaused = !this.timerPaused;
+        if (this.timerPaused) {
+            this.countdown.pause();
+        } else {
+            this.countdown.resume();
+        }
+    }
+
+    async restartTimer() {
+        const restartHandler = () => {
+            this.countdown.restart();
+            this.timerPaused = false;
+            this.countdown.begin();
+        };
+
         const alert = await this.alertController.create({
-            header: `Lettera ${letter}`,
-            message: `È stata pescata la lettera ${letter}. Giocare con questa lettera?`,
-            buttons: [{text: 'Sì', handler: confirmHandler}, 'No']
+            header: `Resetta Timer`,
+            message: `Il conteggio ripartirà dal punto di partenza. Continuare?`,
+            buttons: [{text: 'Sì', handler: restartHandler}, 'No']
         });
 
         await alert.present();
     }
 
+    async stopTimer() {
+        const alert = await this.alertController.create({
+            header: `Ferma Timer`,
+            message: `Il conteggio verrà arrestato e il turno finirà. Continuare?`,
+            buttons: [{text: 'Sì', handler: () => this.endRound()}, 'No']
+        });
+
+        await alert.present();
+    }
+
+    handleRound(ev: CountdownEvent) {
+        // Esegui i suoni solo se il timer è avviato
+        if (ev.left > 60000) {
+            this.lastMinute = false;
+            this.lastTenSeconds = false;
+        }
+
+        if (ev.left <= 60000 && ev.left > 10000) {
+            if (ev.status === 0 && !this.lastMinute) {
+                this.smartAudio.play('lastminute');
+            }
+            this.lastMinute = true;
+            this.lastTenSeconds = false;
+        }
+
+        if (ev.left <= 10000) {
+            if (ev.left >= 1000) {
+                this.smartAudio.play('lastsecond');
+            }
+            this.lastMinute = false;
+            this.lastTenSeconds = true;
+        }
+    }
+
+    handleCountdownEvent(ev: CountdownEvent) {
+        switch (ev.action) {
+            // Ogni secondo, esegue dei controlli
+            case 'restart':
+            case 'notify': {
+                this.handleRound(ev);
+                break;
+            }
+            case 'done': {
+                this.endRound();
+            }
+        }
+    }
 }

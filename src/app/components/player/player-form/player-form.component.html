@@ -8,11 +8,11 @@
         </ion-item>
         <ion-item>
             <ion-label position="stacked">Avatar</ion-label>
-                <ion-segment scrollable="true" (ionChange)="selectAvatar($event.detail.value)">
-                    <ion-segment-button *ngFor="let avatar of avatars" value="{{ avatar.id }}">
-                        <app-avatar [avatar]="avatar"></app-avatar>
-                    </ion-segment-button>
-                </ion-segment>
+            <ion-segment scrollable (ionChange)="selectAvatar($event.detail.value)">
+                <ion-segment-button *ngFor="let avatar of avatars" value="{{ avatar.id }}">
+                    <app-avatar [avatar]="avatar"></app-avatar>
+                </ion-segment-button>
+            </ion-segment>
         </ion-item>
     </ion-list>
     <div class="ion-padding">

@@ -11,7 +11,7 @@ import { Settings, ThemeTypes } from '../../components/settings/settings';
 export class SettingsPage {
 
     public themeLabels = [
-        {key: 'auto', value: '(Auto) Tema di sistema'},
+        {key: 'auto', value: '(Auto) Sistema'},
         {key: 'light', value: 'Chiaro'},
         {key: 'dark', value: 'Scuro'},
     ];
@@ -41,6 +41,9 @@ export class SettingsPage {
             case 'countdownSeconds':
                 this.countdownSeconds(+ev.detail.value, ev.target.min, ev.target.max);
                 break;
+            case 'toggleSound':
+                this.toggleSound(ev.detail.checked);
+                break;
         }
     }
 
@@ -58,5 +61,9 @@ export class SettingsPage {
             });
             await toast.present();
         }
+    }
+
+    private toggleSound(value: boolean) {
+        this.settings.toggleSound(value);
     }
 }
