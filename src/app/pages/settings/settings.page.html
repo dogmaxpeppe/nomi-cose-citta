@@ -12,12 +12,15 @@
         <ion-item lines="full">
             <ion-icon slot="start" name="moon"></ion-icon>
             <ion-label>
-                Disattiva Tema Scuro
+                Seleziona Tema
             </ion-label>
-            <ion-toggle id="themeToggle"
-                        slot="end"
-                        [checked]="getProp(this.settings.DARK_THEME_ENABLED)"
-                        (ionChange)="changeProp($event)"></ion-toggle>
+            <ion-select id="themeSelector"
+                        [value]="loadedSettings?.theme"
+                        (ionChange)="changeProp($event)">
+                <ion-select-option *ngFor="let theme of themeLabels" [value]="theme.key">
+                    {{theme.value}}
+                </ion-select-option>
+            </ion-select>
         </ion-item>
         <ion-item lines="full">
             <ion-icon slot="start" name="timer"></ion-icon>
@@ -31,8 +34,13 @@
                        type="number"
                        step="1"
                        debounce="300"
-                       [value]="getProp(this.settings.COUNTDOWN_SECONDS)"
+                       [value]="loadedSettings?.countdown"
                        (ionChange)="changeProp($event)"></ion-input>
         </ion-item>
     </ion-list>
 </ion-content>
+
+<ion-footer>
+    <ion-item>&copy; 2021 Giuseppe Senese -&nbsp;<a href="mailto:giu.senese@gmail.com">giu.senese@gmail.com</a>
+    </ion-item>
+</ion-footer>

@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 
 import { Storage } from '@ionic/storage-angular';
+import { environment } from '../../environments/environment';
+import { Settings, ThemeTypes } from '../components/settings/settings';
 import { ThemeDetection } from '@ionic-native/theme-detection';
-import { environment, settingsLabels } from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class SettingsService {
     private _storage: Storage | null = null;
-    public readonly DARK_THEME_ENABLED = settingsLabels.DARK_THEME_ENABLED;
-    public readonly COUNTDOWN_SECONDS = settingsLabels.COUNTDOWN_SECONDS;
 
     constructor(
         private storage: Storage,
@@ -29,41 +28,55 @@ export class SettingsService {
                 await this.set(key, settings[key]);
             }
         }
+
+        // Set Theme
+        const themeSetting: ThemeTypes = await this.getTheme();
+        if (themeSetting === 'auto') {
+            await this.detectThemeMode();
+        } else {
+            this.setTheme(themeSetting);
+        }
     }
 
-    // Create and expose methods that users of this service can
-    // call, for example:
-    public set(key: string, value: any) {
-        this._storage?.set(key, value).then(async value => {
-            console.log('SAVED SETTING =>', key, value);
+    public async getAllSettings(): Promise<Settings> {
+        return {
+            theme: await this.getTheme(),
+            countdown: await this.getCountdown()
+        };
+    }
 
-            // Se la chiave riguarda la toggleDarkMode, abilita o disabilita il toggle
-            if (key === this.DARK_THEME_ENABLED) {
-                // Se il valore corrente è NULL, vuol dire che non è stato ancora settato un tema.
-                // In tal caso, controlla qual è il predefinito del cellulare
-                if (value === null) {
-                    try {
-                        const themeDetectionIsAvailable = await ThemeDetection.isAvailable();
-                        if (themeDetectionIsAvailable.value) {
-                            const darkModeIsEnable = await ThemeDetection.isDarkModeEnabled();
-                            value = darkModeIsEnable.value;
+    public async getTheme(): Promise<ThemeTypes> {
+        return await this.get('theme');
+    }
 
-                            // Abilita, eventualmente, la Dark Mode
-                            SettingsService.toggleDarkMode(value);
-                        }
-                    } catch (e) {
-                        console.error(e);
-                    }
+    public async getCountdown(): Promise<number> {
+        return await this.get('countdown');
+    }
 
-                }
-
-                SettingsService.toggleDarkMode(value);
+    public setTheme(value: ThemeTypes) {
+        this.set('theme', value).then(() => {
+            if (value !== 'auto') {
+                this.toggleDarkMode(value === 'dark');
+            } else {
+                this.detectThemeMode();
             }
         });
     }
 
-    public get(key: string) {
+    public setCountdown(value: number) {
+        this.set('countdown', value);
+    }
+
+    // Create and expose methods that users of this service can
+    // call, for example:
+    private get(key: string): Promise<any> {
         return this._storage?.get(key);
+    }
+
+    private set(key: string, value: any) {
+        return this._storage?.set(key, value).then(value => {
+            console.log('SAVED SETTING =>', key, value);
+        });
     }
 
     public async getAll(): Promise<any> {
@@ -84,7 +97,21 @@ export class SettingsService {
      * @param checked
      * @private
      */
-    private static toggleDarkMode(checked: boolean): void {
+    public toggleDarkMode(checked: boolean): void {
         document.body.classList.toggle('dark', checked);
+    }
+
+    public async detectThemeMode() {
+        try {
+            const themeDetectionIsAvailable = await ThemeDetection.isAvailable();
+            if (themeDetectionIsAvailable.value) {
+                const darkModeIsEnable = await ThemeDetection.isDarkModeEnabled();
+
+                // Abilita, eventualmente, la Dark Mode
+                this.toggleDarkMode(darkModeIsEnable.value);
+            }
+        } catch (e) {
+            console.error(e);
+        }
     }
 }

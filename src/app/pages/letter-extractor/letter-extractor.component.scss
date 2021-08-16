@@ -39,8 +39,9 @@
 
 .icon-letter-timer {
     @extend .icon-letter-single;
-    font-size: 30vh;
+    font-size: 20vh;
     background-color: unset;
+    color: unset;
 }
 
 .icon-letter-char-timer {
@@ -55,7 +56,11 @@
 
 .timer {
     @extend .icon-letter-timer;
-    font-size: 30vh;
+    font-size: 15vh;
+
+    .timer-smaller {
+        font-size: 10vh;
+    }
 }
 
 .timer-less-minute {

@@ -134,7 +134,7 @@ export class LetterExtractorComponent {
             };
         }
 
-        const countdownSeconds = +await this.settings.get(this.settings.COUNTDOWN_SECONDS);
+        const countdownSeconds = await this.settings.getCountdown();
 
         this.timerNumber.nativeElement.style.display = 'none';
         const endTime = moment();

@@ -8,7 +8,7 @@ import { SharedService } from '../../services/shared.service';
 
 import { Player } from '../../components/player/player';
 import { selectPlayers } from '../../state/selectors';
-import { updatePoints, newGame } from '../../state/actions';
+import { newGame, updatePoints } from '../../state/actions';
 import { SmartAudio } from '../../services/smart-audio.service';
 
 @Component({
@@ -117,6 +117,10 @@ export class RankingPage implements OnInit {
     newGame() {
         this.router.navigate(['/home'], {state: {resetState: true}});
         this.appStore.dispatch(newGame());
+
+        // Riabilita l'hardware back button
+        this.sharedService.enableBackButton();
+
         this.gameEnded = false;
     }
 }

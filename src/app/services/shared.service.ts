@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { Platform, ToastController } from '@ionic/angular';
 
 @Injectable()
 export class SharedService {
@@ -11,6 +12,31 @@ export class SharedService {
     addPlayer$ = this.emitAddPlayer.asObservable();
     editPlayer$ = this.emitEditPlayer.asObservable();
     updatePoints$ = this.emitUpdatePoints.asObservable();
+
+    constructor(private platform: Platform, private toastController: ToastController) {
+    }
+
+    async enableBackButton() {
+        this.platform.backButton.observers.pop();
+
+        // const toast = await this.toastController.create({
+        //     message: "Back Button abilitato",
+        //     duration: 2000,
+        // });
+        //
+        // await toast.present();
+    }
+
+    disableBackButton() {
+        this.platform.backButton.subscribeWithPriority(1, async () => {
+            // const toast = await this.toastController.create({
+            //     message: "Back Button disabilitato",
+            //     duration: 2000,
+            // });
+            //
+            // await toast.present();
+        });
+    }
 
     // Service message commands
     emitAddPlayerFun(change: any) {

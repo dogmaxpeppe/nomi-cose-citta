@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-    <div *ngIf="!timerActive; else timer">
+    <div *ngIf="!timerActive; else timer" class="letters">
         <div *ngIf="currentLetter; else availableChars" class="icon-letter-single">
             <span class="icon-letter-char-animated">{{ currentLetter }}</span>
         </div>
@@ -21,7 +21,8 @@
         <div class="icon-letter-timer">
             <span #timerNumber class="icon-letter-char-timer">3</span>
         </div>
-        <div #timerStarted class="timer" style="display: none">{{ timerStr }}</div>
+        <div #timerStarted class="timer" [class.timer-small]="timerStr?.length > 4"
+             style="display: none">{{ timerStr }}</div>
     </ng-template>
 </ion-content>
 

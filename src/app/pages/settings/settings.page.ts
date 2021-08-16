@@ -1,28 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SettingsService } from '../../services/settings.service';
 import { ToastController } from '@ionic/angular';
+import { Settings, ThemeTypes } from '../../components/settings/settings';
 
 @Component({
     selector: 'app-settings',
     templateUrl: './settings.page.html',
     styleUrls: ['./settings.page.scss'],
 })
-export class SettingsPage implements OnInit {
+export class SettingsPage {
 
-    private settingsArray: Array<any> = [];
+    public themeLabels = [
+        {key: 'auto', value: '(Auto) Tema di sistema'},
+        {key: 'light', value: 'Chiaro'},
+        {key: 'dark', value: 'Scuro'},
+    ];
+
+    public loadedSettings: Settings;
 
     constructor(
         public settings: SettingsService,
-        private toastController: ToastController
+        private toastController: ToastController,
     ) {
-    }
+        const getAllProps = async () => {
+            this.loadedSettings = await this.settings.getAllSettings();
+        };
 
-    async ngOnInit() {
-        this.settingsArray = await this.settings.getAll();
-    }
-
-    getProp(key: string) {
-        return this.settingsArray[key] ?? null;
+        getAllProps().then(() => console.log(this.loadedSettings));
     }
 
     changeProp(ev: any) {
@@ -31,8 +35,8 @@ export class SettingsPage implements OnInit {
 
         // Exec Function based on ID
         switch (evID) {
-            case 'themeToggle':
-                this.themeToggle(ev.detail.checked);
+            case 'themeSelector':
+                this.themeSelector(ev.detail.value);
                 break;
             case 'countdownSeconds':
                 this.countdownSeconds(+ev.detail.value, ev.target.min, ev.target.max);
@@ -40,17 +44,17 @@ export class SettingsPage implements OnInit {
         }
     }
 
-    private themeToggle(checked) {
-        this.settings.set(this.settings.DARK_THEME_ENABLED, checked);
+    private themeSelector(value: ThemeTypes) {
+        this.settings.setTheme(value);
     }
 
     private async countdownSeconds(seconds: number, min: number, max: number) {
         if (seconds >= min && seconds <= max) {
-            this.settings.set(this.settings.COUNTDOWN_SECONDS, seconds);
+            this.settings.setCountdown(seconds);
         } else {
             const toast = await this.toastController.create({
                 message: `Selezionare una durata compresa tra ${min} e ${max} secondi. Altri valori non saranno salvati.`,
-                duration: 500
+                duration: 5000
             });
             await toast.present();
         }

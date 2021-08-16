@@ -34,6 +34,7 @@
     "@ionic/angular": "^5.5.2",
     "@ionic/storage-angular": "^3.0.6",
     "@ngrx/store": "^12.4.0",
+    "cordova-plugin-nativeaudio": "^3.0.9",
     "moment": "^2.29.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
@@ -91,7 +92,8 @@
         "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
       },
       "cordova-plugin-ionic-keyboard": {},
-      "cordova-plugin-theme-detection": {}
+      "cordova-plugin-theme-detection": {},
+      "cordova-plugin-nativeaudio": {}
     },
     "platforms": [
       "android"

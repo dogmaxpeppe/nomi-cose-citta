@@ -2,15 +2,8 @@ import { createReducer, on } from '@ngrx/store';
 import { addPlayer, deletePlayer, newGame, updateLetters, updatePoints } from './actions';
 import { Player } from '../components/player/player';
 
-// TODO: nei settings puoi pensare di mettere una blacklist di lettere
 const initialLetters: string = 'ABCDEFGHILMNOPQRSTUVZ';
-const initialPlayers: Player[] = [
-    {id:1, name: "Pippo", avatar:1, points: 10},
-    {id:2, name: "Paperino", avatar:2, points: 5},
-    {id:3, name: "Gastone", avatar:3, points: 60},
-    {id:4, name: "Topolino", avatar:4, points: 30},
-    {id:5, name: "Paperone", avatar:5, points: 50},
-];
+const initialPlayers: Player[] = [];
 // const initialPlayers: Player[] = [];
 
 export const initialState = {

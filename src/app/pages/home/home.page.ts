@@ -7,7 +7,6 @@ import { select, Store } from '@ngrx/store';
 import { Player } from '../../components/player/player';
 import { addPlayer } from '../../state/actions';
 import { selectPlayers } from '../../state/selectors';
-import { SettingsService } from '../../services/settings.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -25,12 +24,15 @@ export class HomePage {
         private sharedService: SharedService,
         private router: Router,
         private appStore: Store,
-        private settings: SettingsService
+        private shared: SharedService,
     ) {
         this.appStore.pipe(select(selectPlayers)).subscribe(players => {
             this.playerList = players;
         });
+    }
 
+    ionViewWillEnter() {
+        // Attiva subscriver per catturare l'evento di aggiunta dalla modale
         this.addPlayer$ = this.sharedService.addPlayer$.subscribe(playerData => {
             this.appStore.dispatch(addPlayer({player: playerData}));
             this.modalController.dismiss({
@@ -57,6 +59,9 @@ export class HomePage {
 
     startGame() {
         if (this.playerList.length) {
+            // Disabilita il back button
+            this.shared.disableBackButton();
+
             this.router.navigate(['/start']);
         }
     }
