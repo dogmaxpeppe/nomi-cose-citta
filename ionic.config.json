@@ -2,7 +2,7 @@
   "name": "Nomi Cose Città",
   "integrations": {
     "capacitor": {
-      "enabled": false
+      "enabled": true
     },
     "cordova": {}
   },
