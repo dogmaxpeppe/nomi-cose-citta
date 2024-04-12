@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { StatusBar } from "@awesome-cordova-plugins/status-bar";
 import { SettingsService } from './services/settings.service';
 
 @Component({
@@ -14,8 +13,6 @@ export class AppComponent {
     // noinspection JSUnusedLocalSymbols
     constructor(
         private platform: Platform,
-        private splashScreen: SplashScreen,
-        private statusBar: StatusBar,
         private settings: SettingsService   // Inizializzato qui per "runnare" le settings
     ) {
         this.initializeApp();
@@ -24,7 +21,7 @@ export class AppComponent {
     initializeApp() {
         // Init Platform
         this.platform.ready().then(async () => {
-            this.statusBar.styleDefault();
+            StatusBar.styleDefault()
         });
     }
 }

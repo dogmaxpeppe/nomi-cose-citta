@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { environment } from '../../environments/environment';
 import { Settings, ThemeTypes } from '../components/settings/settings';
-import { ThemeDetection } from '@ionic-native/theme-detection';
+import { ThemeDetectionOriginal } from "@awesome-cordova-plugins/theme-detection";
+import { ThemeDetection } from "@awesome-cordova-plugins/theme-detection/ngx";
 
 @Injectable({
     providedIn: 'root'
