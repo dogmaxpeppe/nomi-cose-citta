@@ -19,7 +19,7 @@ In ogni caso, ci sono dei "TODO" di funzionalità che potrei sviluppare in futur
 - NgRx (https://ngrx.io/)
 
 ## Installazione (PC)
-- Installare NodeJS (dovrebbe andar bene qualsiasi versione)
+- Installare NodeJS (versione 16.13.1)
 - Se non è stato già installato, installare Ionic CLI: npm install -g @ionic/cli
 - Lanciare l'applicativo: `ionic serve`
 
@@ -30,6 +30,7 @@ Seguire il tutorial su https://ionicframework.com/docs/developing/android
 
 
 ## TODO
+- TODO vari del codice
 - Salvataggio persistente dei punteggi delle partite, anche in più slot di salvataggi (adesso, se si chiude l'app lo stato attuale della partita andrà perso)
 - Avatar personalizzati (per ora ci sono solo una serie di Avatar predefiniti)
 - Upgrade a Ionic 6 o successivi
