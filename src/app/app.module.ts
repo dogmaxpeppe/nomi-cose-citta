@@ -22,17 +22,16 @@ import { SettingsService } from './services/settings.service';
 
 @NgModule({
     declarations: [AppComponent],
-    entryComponents: [],
     imports: [
         BrowserModule,
         IonicModule.forRoot(),
         AppRoutingModule,
         ReactiveFormsModule,
-        StoreModule.forRoot({reducer}),
+        StoreModule.forRoot({ reducer }),
         IonicStorageModule.forRoot(),
     ],
     providers: [
-        {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
+        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
         SharedService,
         SmartAudio,
         SettingsService

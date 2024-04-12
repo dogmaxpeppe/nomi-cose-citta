@@ -27,7 +27,6 @@ const routes: Routes = [
         PlayerModule,
         ReactiveFormsModule
     ],
-    declarations: [RankingPage, SetupPointsComponent],
-    entryComponents: [SetupPointsComponent]
+    declarations: [RankingPage, SetupPointsComponent]
 })
 export class RankingPageModule {}

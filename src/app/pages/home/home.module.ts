@@ -23,7 +23,6 @@ import { PlayerModule } from '../../components/player/player.module';
         ReactiveFormsModule,
         PlayerModule,
     ],
-    declarations: [HomePage],
-    entryComponents: [PlayerFormComponent],
+    declarations: [HomePage]
 })
 export class HomePageModule {}
