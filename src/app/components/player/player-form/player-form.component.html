@@ -8,12 +8,16 @@
         </ion-item>
         <ion-item>
             <ion-label position="stacked">Avatar</ion-label>
-            <ion-segment scrollable (ionChange)="selectAvatar($event.detail.value)">
-                <ion-segment-button *ngFor="let avatar of avatars" value="{{ avatar.id }}">
-                    <!-- TODO: allarga scroll in basso -->
-                    <app-avatar [avatar]="avatar"></app-avatar>
-                </ion-segment-button>
-            </ion-segment>
+            <ion-grid id="avatar-container">
+                <ion-row>
+                    <ion-col *ngFor="let avatar of avatars">
+                        <app-avatar class="avatar"
+                                    [selected]="selectedAvatar === avatar.id"
+                                    (click)="selectAvatar(avatar.id)"
+                                    [avatar]="avatar"></app-avatar>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
         </ion-item>
     </ion-list>
     <div class="ion-padding">

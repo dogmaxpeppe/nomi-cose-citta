@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../../services/shared.service';
 import { ModalController, NavParams } from '@ionic/angular';
 import { Player } from '../../../components/player/player';
@@ -13,7 +13,7 @@ export class SetupPointsComponent {
 
     @Input() players: Array<Player>;
     @Input() points: Array<any>;
-    playerPointsForm: FormGroup;
+    playerPointsForm: UntypedFormGroup;
     constructor(
         private sharedService: SharedService,
         private modalController: ModalController,
@@ -25,10 +25,10 @@ export class SetupPointsComponent {
 
         for ( let player of this.players ) {
             const points = typeof this.points[`player-${player.id}`] !== "undefined" ? this.points[`player-${player.id}`] : 0;
-            controls[`player-${player.id}`] = new FormControl(points, Validators.required);
+            controls[`player-${player.id}`] = new UntypedFormControl(points, Validators.required);
         }
 
-        this.playerPointsForm = new FormGroup(controls);
+        this.playerPointsForm = new UntypedFormGroup(controls);
     }
 
     onSubmit() {
