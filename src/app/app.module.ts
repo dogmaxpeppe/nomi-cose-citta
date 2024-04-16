@@ -23,6 +23,11 @@ import { SettingsService } from './services/settings.service';
 import { ThemeDetection } from "@awesome-cordova-plugins/theme-detection/ngx";
 import { Insomnia } from "@awesome-cordova-plugins/insomnia/ngx";
 
+// Multilanguage
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
 @NgModule({
     declarations: [AppComponent],
     imports: [
@@ -35,6 +40,15 @@ import { Insomnia } from "@awesome-cordova-plugins/insomnia/ngx";
             name: '__mydb',
             driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage]
         }),
+        HttpClientModule,
+        TranslateModule.forRoot({
+            defaultLanguage: 'en',
+            loader: {
+                provide: TranslateLoader,
+                useFactory: (createTranslateLoader),
+                deps: [HttpClient]
+            }
+        })
     ],
     providers: [
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
@@ -47,3 +61,7 @@ import { Insomnia } from "@awesome-cordova-plugins/insomnia/ngx";
     bootstrap: [AppComponent]
 })
 export class AppModule {}
+
+export function createTranslateLoader(http: HttpClient) {
+    return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}

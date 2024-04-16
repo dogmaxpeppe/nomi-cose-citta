@@ -3,7 +3,7 @@
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
-        <ion-title>Opzioni</ion-title>
+        <ion-title>{{"OPTIONS" | translate}}</ion-title>
     </ion-toolbar>
 </ion-header>
 
@@ -12,7 +12,7 @@
         <ion-item lines="full">
             <ion-icon slot="start" name="color-palette-outline"></ion-icon>
             <ion-label>
-                Seleziona Tema
+                {{"OPTIONS_SUBMENU.SELECT_THEME" | translate}}
             </ion-label>
             <ion-select id="themeSelector"
                         [value]="loadedSettings?.theme"
@@ -25,7 +25,7 @@
         <ion-item lines="full">
             <ion-icon slot="start" name="timer"></ion-icon>
             <ion-label>
-                Durata Round
+                {{"OPTIONS_SUBMENU.ROUND_LENGTH" | translate}}
             </ion-label>
             <ion-input id="countdownSeconds"
                        slot="end"
@@ -40,7 +40,7 @@
         <ion-item lines="full">
             <ion-icon slot="start" name="volume-high-outline"></ion-icon>
             <ion-label>
-                Attiva Suoni
+                {{"OPTIONS_SUBMENU.ENABLE_SOUNDS" | translate}}
             </ion-label>
             <ion-toggle id="toggleSound"
                         color="primary"
@@ -52,6 +52,6 @@
 </ion-content>
 
 <ion-footer>
-    <ion-item>&copy; 2021 Giuseppe Senese -&nbsp;<a href="mailto:giu.senese@gmail.com">giu.senese@gmail.com</a>
+    <ion-item>&copy; 2024 Giuseppe Senese -&nbsp;<a href="mailto:giu.senese@gmail.com">giu.senese@gmail.com</a>
     </ion-item>
 </ion-footer>

@@ -8,6 +8,7 @@ import { HomePage } from './home.page';
 import { PlayerFormComponent } from '../../components/player/player-form/player-form.component';
 
 import { PlayerModule } from '../../components/player/player.module';
+import { TranslateModule } from "@ngx-translate/core";
 
 @NgModule({
     imports: [
@@ -22,6 +23,7 @@ import { PlayerModule } from '../../components/player/player.module';
         ]),
         ReactiveFormsModule,
         PlayerModule,
+        TranslateModule,
     ],
     declarations: [HomePage]
 })

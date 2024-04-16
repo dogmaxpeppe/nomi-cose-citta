@@ -1,0 +1,17 @@
+{
+  "START GAME TITLE": "Inizia Partita - Crea giocatori",
+  "CREATE PLAYER": "Crea Giocatore",
+  "START GAME": "Inizia partita!",
+  "OPTIONS": "Opzioni",
+  "CLOSE APP": "Chiudi l'App",
+  "OPTIONS_SUBMENU": {
+    "SELECT_THEME": "Seleziona Tema",
+    "THEMES": {
+      "AUTO": "(Auto) Sistema",
+      "LIGHT": "Chiaro",
+      "DARK": "Scuro"
+    },
+    "ROUND_LENGTH": "Durata Round (in secondi)",
+    "ENABLE_SOUNDS": "Attiva Suoni"
+  }
+}

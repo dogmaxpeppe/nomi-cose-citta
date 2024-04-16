@@ -1,0 +1,17 @@
+{
+  "START GAME TITLE": "Start Game - Create Players",
+  "CREATE PLAYER": "Create Player",
+  "START GAME": "Start Game!",
+  "OPTIONS": "Settings",
+  "CLOSE APP": "Close App",
+  "OPTIONS_SUBMENU": {
+    "SELECT_THEME": "Select Theme",
+    "THEMES": {
+      "AUTO": "(Auto) System",
+      "LIGHT": "Light",
+      "DARK": "Dark"
+    },
+    "ROUND_LENGTH": "Round Length (in seconds)",
+    "ENABLE_SOUNDS": "Enable Sounds"
+  }
+}

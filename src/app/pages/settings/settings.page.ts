@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { SettingsService } from '../../services/settings.service';
 import { ToastController } from '@ionic/angular';
 import { Settings, ThemeTypes } from '../../components/settings/settings';
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
     selector: 'app-settings',
@@ -10,23 +11,30 @@ import { Settings, ThemeTypes } from '../../components/settings/settings';
 })
 export class SettingsPage {
 
-    public themeLabels = [
-        {key: 'auto', value: '(Auto) Sistema'},
-        {key: 'light', value: 'Chiaro'},
-        {key: 'dark', value: 'Scuro'},
-    ];
+    public themeLabels = [];
 
     public loadedSettings: Settings;
 
     constructor(
         public settings: SettingsService,
         private toastController: ToastController,
+        private trans: TranslateService,
     ) {
+        this.setupTranslations();
+
         const getAllProps = async () => {
             this.loadedSettings = await this.settings.getAllSettings();
         };
 
         getAllProps().then(() => console.log(this.loadedSettings));
+    }
+
+    private setupTranslations() {
+        this.themeLabels = [
+            { key: 'auto', value: this.trans.instant('OPTIONS_SUBMENU.THEMES.AUTO') },
+            { key: 'light', value: this.trans.instant('OPTIONS_SUBMENU.THEMES.LIGHT') },
+            { key: 'dark', value: this.trans.instant('OPTIONS_SUBMENU.THEMES.DARK') },
+        ];
     }
 
     changeProp(ev: any) {

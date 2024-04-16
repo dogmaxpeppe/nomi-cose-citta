@@ -1,7 +1,7 @@
 <ion-header>
     <ion-toolbar>
         <ion-title>
-            Inizia Partita - Crea giocatori
+            {{"START GAME TITLE" | translate}}
         </ion-title>
     </ion-toolbar>
 </ion-header>
@@ -18,18 +18,18 @@
 <ion-footer class="ion-no-border">
     <ion-button color="primary" expand="full" (click)="createPlayer()">
         <ion-icon name="person-add-outline"></ion-icon>
-        &nbsp;Crea Giocatore
+        &nbsp;{{"CREATE PLAYER" | translate}}
     </ion-button>
     <ion-button color="success" expand="full" disabled="{{ !playerList.length }}" (click)="startGame()">
         <ion-icon name="play-circle-outline"></ion-icon>
-        &nbsp;Inizia partita!
+        &nbsp;{{"START GAME" | translate}}
     </ion-button>
     <ion-button color="light" expand="full" (click)="openOptions()">
         <ion-icon name="settings-outline"></ion-icon>
-        &nbsp;Opzioni
+        &nbsp;{{"OPTIONS" | translate}}
     </ion-button>
     <ion-button color="dark" expand="full" (click)="closeApp()">
         <ion-icon name="exit-outline"></ion-icon>
-        &nbsp;Chiudi l'App
+        &nbsp;{{"CLOSE APP" | translate}}
     </ion-button>
 </ion-footer>
