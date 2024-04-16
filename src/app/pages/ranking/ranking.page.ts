@@ -7,9 +7,10 @@ import { SetupPointsComponent } from './setup-points/setup-points.component';
 import { SharedService } from '../../services/shared.service';
 
 import { Player } from '../../components/player/player';
-import { selectPlayers } from '../../state/selectors';
+import { getCurrentGame, selectPlayers } from '../../state/selectors';
 import { newGame, updatePoints } from '../../state/actions';
 import { SmartAudio } from '../../services/smart-audio.service';
+import { SettingsService } from "../../services/settings.service";
 
 @Component({
     selector: 'app-ranking',
@@ -30,6 +31,7 @@ export class RankingPage implements OnInit {
         private modalController: ModalController,
         private sharedService: SharedService,
         private smartAudio: SmartAudio,
+        private settings: SettingsService,
     ) {
         this.appStore.pipe(select(selectPlayers)).subscribe(players => {
             this.playerList = players;
@@ -82,7 +84,7 @@ export class RankingPage implements OnInit {
     private updatePointsTemp() {
         const playerListUpdated = JSON.parse(JSON.stringify(this.playerList));
 
-        playerListUpdated.map((player) => {
+        playerListUpdated.map((player: Player) => {
             player.points += typeof this.pointsToUpdate[`player-${player.id}`] !== 'undefined' ?
                 this.pointsToUpdate[`player-${player.id}`] : 0;
         });
@@ -90,7 +92,7 @@ export class RankingPage implements OnInit {
         this.sortPlayersByPoints(playerListUpdated);
     }
 
-    private sortPlayersByPoints(playerList) {
+    private sortPlayersByPoints(playerList: Player[]) {
         this.playerListSorted = [...playerList];
 
         // Ordina per punteggio
@@ -106,17 +108,19 @@ export class RankingPage implements OnInit {
 
     nextRound() {
         this.appStore.dispatch(updatePoints({points: this.pointsToUpdate}));
+        this.settings.saveCurrentGame();
         this.router.navigate(['/start'], {state: {resetState: true}});
     }
 
     endGame() {
         this.gameEnded = true;
         this.smartAudio.play('tada');
+        this.settings.deleteCurrentGame();
     }
 
     newGame() {
         this.router.navigate(['/home'], {state: {resetState: true}});
-        this.appStore.dispatch(newGame());
+        this.appStore.dispatch(newGame(null));
 
         // Riabilita l'hardware back button
         this.sharedService.enableBackButton();

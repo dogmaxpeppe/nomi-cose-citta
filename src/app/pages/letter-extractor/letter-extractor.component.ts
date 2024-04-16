@@ -1,5 +1,5 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AlertController, Platform } from '@ionic/angular';
 import { SmartAudio } from '../../services/smart-audio.service';
 import { Router } from '@angular/router';
 
@@ -10,13 +10,14 @@ import { selectLetters } from '../../state/selectors';
 import { SettingsService } from '../../services/settings.service';
 
 import { CountdownComponent, CountdownConfig, CountdownEvent } from 'ngx-countdown';
+import { Insomnia } from "@awesome-cordova-plugins/insomnia/ngx";
 
 @Component({
     selector: 'app-letter-extractor',
     templateUrl: './letter-extractor.component.html',
     styleUrls: ['./letter-extractor.component.scss'],
 })
-export class LetterExtractorComponent implements OnInit {
+export class LetterExtractorComponent implements OnInit, OnDestroy {
 
     private listLetters = 'ABCDEFGHILMNOPQRSTUVZ';
     public letters = [];
@@ -36,7 +37,9 @@ export class LetterExtractorComponent implements OnInit {
         private router: Router,
         private smartAudio: SmartAudio,
         private appStore: Store,
-        private settings: SettingsService
+        private settings: SettingsService,
+        private insomnia: Insomnia,
+        private platform: Platform,
     ) {
         this.appStore.pipe(select(selectLetters)).subscribe(letters => {
             this.listLetters = letters;
@@ -95,7 +98,7 @@ export class LetterExtractorComponent implements OnInit {
         this.currentLetter = null;
     }
 
-    private startRound(index) {
+    private startRound(index: number) {
         this.letters.splice(index, 1);
         this.appStore.dispatch(updateLetters({letters: this.letters.join('')}));
         this.timerStarted = true;
@@ -103,6 +106,7 @@ export class LetterExtractorComponent implements OnInit {
     }
 
     private async startCountDown() {
+        this.keepAwake();
         function hideAndChange(timerNumberRef, str: string) {
             timerNumberRef.nativeElement.style.display = 'none';
             timerNumberRef.nativeElement.innerHTML = str;
@@ -118,24 +122,24 @@ export class LetterExtractorComponent implements OnInit {
         // Promise per evitare il callback hell
         const wait = ms => new Promise((resolve) => setTimeout(resolve, ms));
 
-        this.smartAudio.play('countdown-beep');
+        await this.smartAudio.play('countdown-beep');
         await wait(1000);
         hideAndChange(this.timerNumber, '2');
 
         await wait(50);
-        this.smartAudio.play('countdown-beep');
+        await this.smartAudio.play('countdown-beep');
         show(this.timerNumber);
 
         await wait(950);
         hideAndChange(this.timerNumber, '1');
 
         await wait(50);
-        this.smartAudio.play('countdown-beep');
+        await this.smartAudio.play('countdown-beep');
         show(this.timerNumber);
 
         await wait(950);
         hideAndChange(this.timerNumber, 'VIA!');
-        this.smartAudio.play('start');
+        await this.smartAudio.play('start');
 
         await wait(50);
         show(this.timerNumber, 'icon-letter-char-timer-last');
@@ -146,6 +150,7 @@ export class LetterExtractorComponent implements OnInit {
     }
 
     private async startTimer() {
+        // TODO: rimani lo schermo attivo quando parte il timer
         this.timerNumber.nativeElement.style.display = 'none';
 
         const timer = this.timerEl.nativeElement;
@@ -154,10 +159,11 @@ export class LetterExtractorComponent implements OnInit {
         this.countdown.begin();
     }
 
-    private endRound() {
+    private async endRound() {
         this.countdown.stop();
-        this.smartAudio.play('timeout');
-        this.router.navigate(['/ranking'], {state: {setupPoints: true}});
+        await this.smartAudio.play('timeout');
+        this.allowSleepAgain();
+        await this.router.navigate(['/ranking'], {state: {setupPoints: true}});
     }
 
     public toggleTimer() {
@@ -231,5 +237,22 @@ export class LetterExtractorComponent implements OnInit {
                 this.endRound();
             }
         }
+    }
+
+    private keepAwake() {
+        if (this.platform.is('cordova')) {
+            this.insomnia.keepAwake();
+        }
+    }
+
+    private allowSleepAgain() {
+        if (this.platform.is('cordova')) {
+            this.insomnia.allowSleepAgain();
+        }
+    }
+
+    ngOnDestroy(): void {
+        // Per sicurezza, togli il keepAwake anche all'ngOnDestroy
+        this.allowSleepAgain();
     }
 }

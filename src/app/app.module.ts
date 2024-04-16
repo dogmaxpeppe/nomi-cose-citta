@@ -17,8 +17,11 @@ import { StoreModule } from '@ngrx/store';
 import { reducer } from './state/reducer';
 
 // Storage
+import { Drivers, Storage } from '@ionic/storage';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { SettingsService } from './services/settings.service';
+import { ThemeDetection } from "@awesome-cordova-plugins/theme-detection/ngx";
+import { Insomnia } from "@awesome-cordova-plugins/insomnia/ngx";
 
 @NgModule({
     declarations: [AppComponent],
@@ -28,13 +31,18 @@ import { SettingsService } from './services/settings.service';
         AppRoutingModule,
         ReactiveFormsModule,
         StoreModule.forRoot({ reducer }),
-        IonicStorageModule.forRoot(),
+        IonicStorageModule.forRoot({
+            name: '__mydb',
+            driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage]
+        }),
     ],
     providers: [
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
         SharedService,
         SmartAudio,
-        SettingsService
+        SettingsService,
+        ThemeDetection,
+        Insomnia,
     ],
     bootstrap: [AppComponent]
 })

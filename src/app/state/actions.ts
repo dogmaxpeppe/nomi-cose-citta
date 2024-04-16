@@ -1,3 +1,5 @@
+import { Game } from "./state";
+
 export const ADD_PLAYER = 'ADD_PLAYER';
 export const DELETE_PLAYER = 'DELETE_PLAYER';
 export const UPDATE_LETTERS = 'UPDATE_LETTERS';
@@ -8,24 +10,25 @@ import { Player } from '../components/player/player';
 
 export const addPlayer = createAction(
     ADD_PLAYER,
-    props<{ player: Player }>()
+    props<{ player: Player }>(),
 );
 
 export const deletePlayer = createAction(
     DELETE_PLAYER,
-    props<{ player: Player }>()
+    props<{ player: Player }>(),
 );
 
 export const updateLetters = createAction(
     UPDATE_LETTERS,
-    props<{ letters: string }>()
+    props<{ letters: string }>(),
 );
 
 export const updatePoints = createAction(
     UPDATE_POINTS,
-    props<{ points: number[] }>()
+    props<{ points: number[] }>(),
 );
 
 export const newGame = createAction(
     NEW_GAME,
+    props<{ resumedGame?: Game }>(),
 );

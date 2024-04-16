@@ -15,11 +15,13 @@ Ho deciso di rendere "Open" il progetto fornire un esempio possibile di sviluppo
 In ogni caso, ci sono dei "TODO" di funzionalità che potrei sviluppare in futuro a tempo perso ;-)
 
 ## Tecnologie utilizzate
-- Angular 12 (https://angular.io/)
+- Ionic 7
+- Cordova
+- Angular 14 (https://angular.io/)
 - NgRx (https://ngrx.io/)
 
 ## Installazione (PC)
-- Installare NodeJS (versione 16.13.1)
+- Installare NodeJS (versione >= 18.x)
 - Se non è stato già installato, installare Ionic CLI: npm install -g @ionic/cli
 - Lanciare l'applicativo: `ionic serve`
 
@@ -28,9 +30,7 @@ L'applicativo verrà lanciato sul proprio browser predefinito e raggiungibile me
 ## Installazione (Android)
 Seguire il tutorial su https://ionicframework.com/docs/developing/android
 
-
 ## TODO
-- TODO vari del codice
-- Salvataggio persistente dei punteggi delle partite, anche in più slot di salvataggi (adesso, se si chiude l'app lo stato attuale della partita andrà perso)
+- Salvataggio dei punteggi delle partite anche in più slot di salvataggi
+- Multilingua
 - Avatar personalizzati (per ora ci sono solo una serie di Avatar predefiniti)
-- Upgrade a Ionic 6 o successivi

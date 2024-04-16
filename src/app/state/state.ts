@@ -1,6 +1,9 @@
 import { Player } from '../components/player/player';
 
-export interface AppState {
+export interface Game {
+    id: number,
     players: Player[],
-    letters: string
+    letters: string,
+    currentGame: boolean,
+    date?: Date,
 }
