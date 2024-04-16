@@ -103,4 +103,12 @@
     <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
     <plugin name="cordova-plugin-ionic-webview" spec="^4.0.0" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
+    <!-- Insomnia for iOS -->
+    <feature name="Insomnia">
+        <param name="ios-package" value="Insomnia" />
+    </feature>
+    <!-- Insomnia for Android -->
+    <feature name="Insomnia">
+        <param name="android-package" value="nl.xservices.plugins.Insomnia" />
+    </feature>
 </widget>

@@ -1,7 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
 import { addPlayer, deletePlayer, newGame, updateLetters, updatePoints } from './actions';
 import { Player } from '../components/player/player';
+import { Game } from "./state";
 
+// TODO: se usi la lingua inglese, allarga l'alfabeto anche alle lettere JKWXY
 const initialLetters: string = 'ABCDEFGHILMNOPQRSTUVZ';
 // const initialPlayers: Player[] = [];
 const initialPlayers: Player[] = [{
@@ -11,16 +13,18 @@ const initialPlayers: Player[] = [{
     points: null
 }];
 
-export const initialState = {
+export const initialState: Game = {
+    id: 1,
     players: initialPlayers,
     letters: initialLetters,
+    currentGame: true,
 };
 
 export const reducer = createReducer(
     initialState,
     on(addPlayer, (state, {player}) => {
         const newPlayer = {...player};
-        let newPlayerList;
+        let newPlayerList: Player[];
 
         // Se l'ID è definito, sovrascrivi il player con l'ID selezionato,
         // Altrimenti crea l'ID prendendo la lunghezza della lista dei player, incrementando di uno (se la lista esiste, altrimenti, fissa 1)
@@ -48,7 +52,7 @@ export const reducer = createReducer(
     }),
     on(updatePoints, (state, {points}) => {
         const playersUpdated = JSON.parse(JSON.stringify(state.players));
-        playersUpdated.map((player) => {
+        playersUpdated.map((player: Player) => {
             player.points += points['player-' + player.id];
             return player;
         });
@@ -58,17 +62,28 @@ export const reducer = createReducer(
             players: playersUpdated
         };
     }),
-    on(newGame, (state) => {
+    on(newGame, (state: Game, {resumedGame = null}) => {
         // Ai giocatori correnti vengono azzerati i punteggi
         // Mentre lo stato delle lettere è quello iniziale
-        return {
-            ...state,
-            players: state.players.map((player: Player) => {
-                const updatedPlayer = {...player};
-                updatedPlayer.points = null;
-                return updatedPlayer;
-            }),
-            letters: initialLetters
+        if (!resumedGame) {
+            return {
+                id: 1,
+                ...state,
+                players: state.players.map((player: Player) => {
+                    const updatedPlayer = {...player};
+                    updatedPlayer.points = null;
+                    return updatedPlayer;
+                }),
+                letters: initialLetters,
+                currentGame: true,
+            }
+        } else {
+           return {
+               id: resumedGame.id,
+               players: resumedGame.players,
+               letters: resumedGame.letters,
+               currentGame: resumedGame.currentGame,
+           }
         }
     })
 );

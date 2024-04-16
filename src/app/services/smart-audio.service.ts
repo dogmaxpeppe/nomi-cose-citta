@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NativeAudio } from '@ionic-native/native-audio/ngx';
+import { NativeAudio } from "@awesome-cordova-plugins/native-audio";
 import { Platform } from '@ionic/angular';
 import { SettingsService } from './settings.service';
 
@@ -12,7 +12,6 @@ export class SmartAudio {
     sounds: any = [];
 
     constructor(
-        private nativeAudio: NativeAudio,
         private platform: Platform,
         private settings: SettingsService
     ) {
@@ -34,7 +33,7 @@ export class SmartAudio {
 
             this.sounds.push(audio);
         } else {
-            this.nativeAudio.preloadSimple(key, asset);
+            NativeAudio.preloadSimple(key, asset);
 
             let audio = {
                 key: key,
@@ -56,7 +55,7 @@ export class SmartAudio {
                 let audioAsset = new Audio(audio.asset);
                 audioAsset.play();
             } else {
-                this.nativeAudio.play(audio.asset).then((res) => {
+                NativeAudio.play(audio.asset).then((res) => {
                     console.log(res);
                 }, (err) => {
                     console.log(err);

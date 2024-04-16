@@ -3,8 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -13,35 +11,38 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 // Audio
 import { SmartAudio } from './services/smart-audio.service';
-import { NativeAudio } from '@ionic-native/native-audio/ngx';
 
 // Redux
 import { StoreModule } from '@ngrx/store';
 import { reducer } from './state/reducer';
 
 // Storage
+import { Drivers, Storage } from '@ionic/storage';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { SettingsService } from './services/settings.service';
+import { ThemeDetection } from "@awesome-cordova-plugins/theme-detection/ngx";
+import { Insomnia } from "@awesome-cordova-plugins/insomnia/ngx";
 
 @NgModule({
     declarations: [AppComponent],
-    entryComponents: [],
     imports: [
         BrowserModule,
         IonicModule.forRoot(),
         AppRoutingModule,
         ReactiveFormsModule,
-        StoreModule.forRoot({reducer}),
-        IonicStorageModule.forRoot(),
+        StoreModule.forRoot({ reducer }),
+        IonicStorageModule.forRoot({
+            name: '__mydb',
+            driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage]
+        }),
     ],
     providers: [
-        StatusBar,
-        SplashScreen,
-        {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
+        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
         SharedService,
         SmartAudio,
-        NativeAudio,
-        SettingsService
+        SettingsService,
+        ThemeDetection,
+        Insomnia,
     ],
     bootstrap: [AppComponent]
 })

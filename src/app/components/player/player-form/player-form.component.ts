@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { avatars } from '../avatar/Avatars';
 import { SharedService } from '../../../services/shared.service';
 import { Player } from '../player';
@@ -13,9 +13,10 @@ import { ModalController } from '@ionic/angular';
 export class PlayerFormComponent implements OnInit {
     @Input() private player: Player = null;
     public editMode: boolean = false;
-    public playerForm: FormGroup;
+    public playerForm: UntypedFormGroup;
 
     avatars = avatars;
+    selectedAvatar: number;
 
     constructor(
         private sharedService: SharedService,
@@ -27,12 +28,14 @@ export class PlayerFormComponent implements OnInit {
     ngOnInit() {
         this.editMode = this.player !== null;
 
-        this.playerForm = new FormGroup({
-            id: new FormControl(this.player?.id),
-            name: new FormControl(this.player?.name, Validators.required),
-            avatar: new FormControl(this.player?.avatar, Validators.required),
-            points: new FormControl(this.player?.points),
+        this.playerForm = new UntypedFormGroup({
+            id: new UntypedFormControl(this.player?.id),
+            name: new UntypedFormControl(this.player?.name, Validators.required),
+            avatar: new UntypedFormControl(this.player?.avatar, Validators.required),
+            points: new UntypedFormControl(this.player?.points),
         });
+
+        this.selectedAvatar = this.player?.avatar;
     }
 
     onSubmit() {
@@ -52,8 +55,9 @@ export class PlayerFormComponent implements OnInit {
         }
     }
 
-    selectAvatar(id) {
+    selectAvatar(id: number) {
         this.playerForm.get('avatar').setValue(id);
+        this.selectedAvatar = id;
     }
 
     dismiss() {

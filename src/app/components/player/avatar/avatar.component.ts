@@ -10,6 +10,7 @@ export class AvatarComponent implements OnInit {
 
     @Input() avatar: any;
     @Input() idAvatar: number;
+    @Input() selected = false;
 
     constructor() {
     }

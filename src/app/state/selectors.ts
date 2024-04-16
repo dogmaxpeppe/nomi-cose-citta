@@ -1,5 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { Player } from '../components/player/player';
+import { Game } from "./state";
 
 export const selectLetters = createSelector(
     (state: any) => state.reducer.letters,
@@ -16,4 +17,9 @@ export const getPlayer = (id: number) => createSelector(
     (players: Player[]) => {
         return players.find(x => x.id === id)
     }
-)
+);
+
+export const getCurrentGame = createSelector(
+    (state: any) => state.reducer,
+    (game: Game) => game,
+);
