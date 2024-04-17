@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { CountdownModule } from 'ngx-countdown';
 
 import { LetterExtractorComponent } from './letter-extractor.component';
+import { TranslateModule } from "@ngx-translate/core";
 
 @NgModule({
     imports: [
@@ -16,7 +17,8 @@ import { LetterExtractorComponent } from './letter-extractor.component';
                 component: LetterExtractorComponent
             }
         ]),
-        CountdownModule
+        CountdownModule,
+        TranslateModule
     ],
     declarations: [LetterExtractorComponent]
 })

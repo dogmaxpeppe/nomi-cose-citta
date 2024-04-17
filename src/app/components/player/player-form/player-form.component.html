@@ -1,13 +1,13 @@
 <form [formGroup]="playerForm" (ngSubmit)="onSubmit()">
     <ion-list lines="full" class="ion-no-margin ion-no-padding">
         <ion-item>
-            <ion-label position="stacked">Nome Giocatore
+            <ion-label position="stacked">{{'PLAYER_NAME' | translate}}
                 <ion-text color="danger">*</ion-text>
             </ion-label>
             <ion-input formControlName="name" placeholder="Inserisci Nome Giocatore"></ion-input>
         </ion-item>
         <ion-item>
-            <ion-label position="stacked">Avatar</ion-label>
+            <ion-label position="stacked">{{'AVATAR' | translate}}</ion-label>
             <ion-grid id="avatar-container">
                 <ion-row>
                     <ion-col *ngFor="let avatar of avatars">
@@ -24,10 +24,10 @@
         <ion-button expand="block"
                     type="submit"
                     [disabled]="!playerForm.valid">
-            {{!editMode ? 'Crea Giocatore' : 'Modifica Giocatore'}}
+            {{!editMode ? ('CREATE_PLAYER' | translate) : ('EDIT_PLAYER' | translate)}}
         </ion-button>
         <ion-button expand="block" color="danger" (click)="dismiss()">
-            Annulla
+            {{'CANCEL' | translate}}
         </ion-button>
     </div>
 </form>

@@ -10,6 +10,7 @@ import { RankingPage } from './ranking.page';
 // REDUX
 import { PlayerModule } from '../../components/player/player.module';
 import { SetupPointsComponent } from './setup-points/setup-points.component';
+import { TranslateModule } from "@ngx-translate/core";
 
 const routes: Routes = [
     {
@@ -25,7 +26,8 @@ const routes: Routes = [
         IonicModule,
         RouterModule.forChild(routes),
         PlayerModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        TranslateModule
     ],
     declarations: [RankingPage, SetupPointsComponent]
 })

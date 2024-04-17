@@ -11,6 +11,7 @@ import { SettingsService } from '../../services/settings.service';
 
 import { CountdownComponent, CountdownConfig, CountdownEvent } from 'ngx-countdown';
 import { Insomnia } from "@awesome-cordova-plugins/insomnia/ngx";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
     selector: 'app-letter-extractor',
@@ -19,6 +20,7 @@ import { Insomnia } from "@awesome-cordova-plugins/insomnia/ngx";
 })
 export class LetterExtractorComponent implements OnInit, OnDestroy {
 
+    // TODO: se la lingua è inglese, metti anche le altre lettere
     private listLetters = 'ABCDEFGHILMNOPQRSTUVZ';
     public letters = [];
     public currentLetter = null;
@@ -40,6 +42,7 @@ export class LetterExtractorComponent implements OnInit, OnDestroy {
         private settings: SettingsService,
         private insomnia: Insomnia,
         private platform: Platform,
+        private trans: TranslateService,
     ) {
         this.appStore.pipe(select(selectLetters)).subscribe(letters => {
             this.listLetters = letters;
@@ -85,9 +88,12 @@ export class LetterExtractorComponent implements OnInit, OnDestroy {
             };
 
             const alert = await this.alertController.create({
-                header: `Lettera ${this.currentLetter}`,
-                message: `È stata pescata la lettera ${this.currentLetter}. Giocare con questa lettera?`,
-                buttons: [{text: 'Sì', handler: confirmHandler}, 'No']
+                header: this.trans.instant('LETTER_X', {letter: this.currentLetter}),
+                message: this.trans.instant('LETTER_X_EXTRACTED', {letter: this.currentLetter}),
+                buttons: [
+                    {text: this.trans.instant('YES'), handler: confirmHandler},
+                    this.trans.instant('NO'),
+                ]
             });
 
             await alert.present();
@@ -138,7 +144,7 @@ export class LetterExtractorComponent implements OnInit, OnDestroy {
         show(this.timerNumber);
 
         await wait(950);
-        hideAndChange(this.timerNumber, 'VIA!');
+        hideAndChange(this.timerNumber, this.trans.instant('START'));
         await this.smartAudio.play('start');
 
         await wait(50);
@@ -150,7 +156,6 @@ export class LetterExtractorComponent implements OnInit, OnDestroy {
     }
 
     private async startTimer() {
-        // TODO: rimani lo schermo attivo quando parte il timer
         this.timerNumber.nativeElement.style.display = 'none';
 
         const timer = this.timerEl.nativeElement;
@@ -183,9 +188,12 @@ export class LetterExtractorComponent implements OnInit, OnDestroy {
         };
 
         const alert = await this.alertController.create({
-            header: `Resetta Timer`,
-            message: `Il conteggio ripartirà dal punto di partenza. Continuare?`,
-            buttons: [{text: 'Sì', handler: restartHandler}, 'No']
+            header: this.trans.instant('RESET_TIMER'),
+            message: this.trans.instant('RESET_TIMER_MESSAGE'),
+            buttons: [
+                {text: this.trans.instant('YES'), handler: restartHandler},
+                this.trans.instant('NO'),
+            ],
         });
 
         await alert.present();
@@ -193,9 +201,12 @@ export class LetterExtractorComponent implements OnInit, OnDestroy {
 
     async stopTimer() {
         const alert = await this.alertController.create({
-            header: `Ferma Timer`,
-            message: `Il conteggio verrà arrestato e il turno finirà. Continuare?`,
-            buttons: [{text: 'Sì', handler: () => this.endRound()}, 'No']
+            header: this.trans.instant('STOP_TIMER'),
+            message: this.trans.instant('STOP_TIMER_MESSAGE'),
+            buttons: [
+                {text: this.trans.instant('YES'), handler: () => this.endRound()},
+                this.trans.instant('NO')
+            ]
         });
 
         await alert.present();

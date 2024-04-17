@@ -1,6 +1,6 @@
 <ion-header>
     <ion-toolbar>
-        <ion-title>{{!timerStarted ? 'Estrai o scegli una lettera' : null}}</ion-title>
+        <ion-title>{{!timerStarted ? ("EXTRACT_OR_CHOOSE_LETTER" | translate) : null}}</ion-title>
     </ion-toolbar>
 </ion-header>
 
@@ -44,7 +44,7 @@
 
 <ion-footer *ngIf="!timerStarted" class="ion-no-border">
     <ion-button *ngIf="currentLetter" color="secondary" expand="full" (click)="resetLetter()">
-        Scegli Manualmente
+        {{"CHOOSE_LETTER_MANUALLY" | translate}}
     </ion-button>
-    <ion-button color="primary" expand="full" (click)="extractLetter()">Estrai Lettera</ion-button>
+    <ion-button color="primary" expand="full" (click)="extractLetter()">{{"EXTRACT_LETTER" | translate}}</ion-button>
 </ion-footer>

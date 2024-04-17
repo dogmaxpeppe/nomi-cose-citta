@@ -1,9 +1,9 @@
 {
-  "START GAME TITLE": "Start Game - Create Players",
-  "CREATE PLAYER": "Create Player",
-  "START GAME": "Start Game!",
+  "START_GAME_TITLE": "Start Game - Create Players",
+  "CREATE_PLAYER": "Create Player",
+  "START_GAME": "Start Game!",
   "OPTIONS": "Settings",
-  "CLOSE APP": "Close App",
+  "CLOSE_APP": "Close App",
   "OPTIONS_SUBMENU": {
     "SELECT_THEME": "Select Theme",
     "THEMES": {
@@ -13,5 +13,18 @@
     },
     "ROUND_LENGTH": "Round Length (in seconds)",
     "ENABLE_SOUNDS": "Enable Sounds"
-  }
+  },
+  "EXTRACT_OR_CHOOSE_LETTER": "Extract randomly or choose a letter",
+  "CHOOSE_LETTER_MANUALLY": "Choose Manually",
+  "EXTRACT_LETTER": "Extract Randomly",
+  "LETTER_X": "Letter {{letter}}",
+  "LETTER_X_EXTRACTED": "Letter {{letter}} has been extracted. Do you wanna play with it?",
+  "YES": "Yes",
+  "NO": "No",
+  "START": "START!",
+  "RESET_TIMER": "Reset Timer",
+  "RESET_TIMER_MESSAGE": "Timer will be restarted. Continue?",
+  "STOP_TIMER": "Stop Timer",
+  "STOP_TIMER_MESSAGE": "Timer will be stopped and the turn will be over. Continue?",
+  "SAVE_SCORES": "Save Scores"
 }

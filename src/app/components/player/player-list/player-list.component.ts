@@ -6,6 +6,7 @@ import { AlertController, ModalController, ToastController } from '@ionic/angula
 import { select, Store } from '@ngrx/store';
 import { getPlayer } from '../../../state/selectors';
 import { addPlayer, deletePlayer } from '../../../state/actions';
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
     selector: 'app-player-list',
@@ -23,7 +24,8 @@ export class PlayerListComponent implements OnInit {
         private modalController: ModalController,
         private appStore: Store,
         private alertController: AlertController,
-        private toastController: ToastController
+        private toastController: ToastController,
+        private trans: TranslateService,
     ) {
         this.sharedService.editPlayer$.subscribe(playerData => {
             this.appStore.dispatch(addPlayer({player: playerData}));
@@ -47,7 +49,7 @@ export class PlayerListComponent implements OnInit {
         this.presentAlert(player, async () => {
            this.appStore.dispatch(deletePlayer({player}));
             const toast = await this.toastController.create({
-                message: "L'utente è stato cancellato correttamente",
+                message: this.trans.instant('PLAYER_DELETED'),
                 duration: 2000
             });
 
@@ -67,9 +69,9 @@ export class PlayerListComponent implements OnInit {
 
     async presentAlert(player: Player, confirmHandler) {
         const alert = await this.alertController.create({
-            header: `Cancellare ${player.name}?`,
-            message: `Sei sicuro di voler cancellare l'utente selezionato?`,
-            buttons: [{text: 'Sì', handler: confirmHandler}, 'No']
+            header: this.trans.instant('DELETE_PLAYER', {playerName: player.name}),
+            message: this.trans.instant('DELETE_PLAYER_MESSAGE'),
+            buttons: [{text: this.trans.instant('YES'), handler: confirmHandler}, this.trans.instant('NO')]
         });
 
         await alert.present();

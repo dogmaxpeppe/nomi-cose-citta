@@ -1,5 +1,5 @@
 <ion-item *ngIf="!players.length; else playersDiv">
-    <p>La lista dei giocatori è vuota! Aggiungi un nuovo giocatore.</p>
+    <p>{{'PLAYER_LIST_IS_EMPTY' | translate}}</p>
 </ion-item>
 <ng-template #playersDiv>
     <ion-item *ngFor="let player of players; let i = index">

@@ -1,7 +1,7 @@
 <ion-header>
     <ion-toolbar>
-        <ion-title *ngIf="!gameEnded">Classifica Provvisoria</ion-title>
-        <ion-title *ngIf="gameEnded">Classifica Definitiva</ion-title>
+        <ion-title *ngIf="!gameEnded">{{'PROVISIONAL_RANKING' | translate}}</ion-title>
+        <ion-title *ngIf="gameEnded">{{'FINAL_RANKING' | translate}}</ion-title>
     </ion-toolbar>
 </ion-header>
 
@@ -15,14 +15,14 @@
                 color="primary"
                 expand="full"
                 (click)="setupPoints()">
-        <ion-icon name="create-outline"></ion-icon>&nbsp;Imposta Punteggi
+        <ion-icon name="create-outline"></ion-icon>&nbsp;{{'SETUP_POINTS' | translate}}
     </ion-button>
 
     <ion-button *ngIf="!gameEnded"
                 color="success"
                 expand="full"
                 (click)="nextRound()">
-        <ion-icon name="arrow-redo-outline"></ion-icon>&nbsp;Prossimo Round
+        <ion-icon name="arrow-redo-outline"></ion-icon>&nbsp;{{'NEXT_ROUND' | translate}}
     </ion-button>
 
 
@@ -30,13 +30,13 @@
                 color="danger"
                 expand="full"
                 (click)="endGame()">
-        <ion-icon name="stop-circle-outline"></ion-icon>&nbsp;Termina Partita
+        <ion-icon name="stop-circle-outline"></ion-icon>&nbsp;{{'END_GAME' | translate}}
     </ion-button>
 
     <ion-button *ngIf="gameEnded"
                 color="primary"
                 expand="full"
                 (click)="newGame()">
-        <ion-icon name="refresh-outline"></ion-icon>&nbsp;Nuova Partita
+        <ion-icon name="refresh-outline"></ion-icon>&nbsp;{{'NEW_GAME' | translate}}
     </ion-button>
 </ion-footer>

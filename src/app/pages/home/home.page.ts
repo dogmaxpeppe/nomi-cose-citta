@@ -10,6 +10,7 @@ import { selectPlayers } from '../../state/selectors';
 import { Subscription } from 'rxjs';
 import { Game } from "../../state/state";
 import { SettingsService } from "../../services/settings.service";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
     selector: 'app-home',
@@ -29,6 +30,7 @@ export class HomePage implements OnInit{
         private shared: SharedService,
         private alertController: AlertController,
         private settings: SettingsService,
+        private trans: TranslateService,
     ) {
         this.appStore.pipe(select(selectPlayers)).subscribe(players => {
             this.playerList = players;
@@ -95,12 +97,12 @@ export class HomePage implements OnInit{
 
     async closeApp() {
         const alert = await this.alertController.create({
-            message: `Sei sicuro di voler chiudere l'app?`,
+            message: this.trans.instant('SURE_CLOSE_APP'),
             buttons: [{
-                text: 'Sì', handler: () => {
+                text: this.trans.instant('YES'), handler: () => {
                     navigator['app'].exitApp();
                 }
-            }, 'No']
+            }, this.trans.instant('NO')]
         });
 
         await alert.present();
@@ -108,14 +110,14 @@ export class HomePage implements OnInit{
 
     async openRunningGame(game: Game) {
         const alert = await this.alertController.create({
-            message: `Trovata una partita in corso non completata. Riprenderla?`,
+            message: this.trans.instant('GAME_FOUND'),
             buttons: [{
-                text: 'Sì', handler: () => {
+                text: this.trans.instant('YES'), handler: () => {
                     this.playerList = game.players;
                     this.startGame(game);
                 }
             }, {
-                text: 'No', handler: () => {
+                text: this.trans.instant('NO'), handler: () => {
                     // Non è più un game da riprendere, quindi metti la variabile a false.
                     game.currentGame = false;
                     this.settings.setMatchInfo(game);

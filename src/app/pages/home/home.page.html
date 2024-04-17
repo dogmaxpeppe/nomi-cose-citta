@@ -1,7 +1,7 @@
 <ion-header>
     <ion-toolbar>
         <ion-title>
-            {{"START GAME TITLE" | translate}}
+            {{"START_GAME_TITLE" | translate}}
         </ion-title>
     </ion-toolbar>
 </ion-header>
@@ -18,11 +18,11 @@
 <ion-footer class="ion-no-border">
     <ion-button color="primary" expand="full" (click)="createPlayer()">
         <ion-icon name="person-add-outline"></ion-icon>
-        &nbsp;{{"CREATE PLAYER" | translate}}
+        &nbsp;{{"CREATE_PLAYER" | translate}}
     </ion-button>
     <ion-button color="success" expand="full" disabled="{{ !playerList.length }}" (click)="startGame()">
         <ion-icon name="play-circle-outline"></ion-icon>
-        &nbsp;{{"START GAME" | translate}}
+        &nbsp;{{"START_GAME" | translate}}
     </ion-button>
     <ion-button color="light" expand="full" (click)="openOptions()">
         <ion-icon name="settings-outline"></ion-icon>
@@ -30,6 +30,6 @@
     </ion-button>
     <ion-button color="dark" expand="full" (click)="closeApp()">
         <ion-icon name="exit-outline"></ion-icon>
-        &nbsp;{{"CLOSE APP" | translate}}
+        &nbsp;{{"CLOSE_APP" | translate}}
     </ion-button>
 </ion-footer>
