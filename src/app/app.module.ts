@@ -27,6 +27,7 @@ import { Insomnia } from "@awesome-cordova-plugins/insomnia/ngx";
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateConfigService } from "./services/translate.service";
 
 @NgModule({
     declarations: [AppComponent],
@@ -42,7 +43,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
         }),
         HttpClientModule,
         TranslateModule.forRoot({
-            defaultLanguage: 'en',
+            defaultLanguage: 'it',
             loader: {
                 provide: TranslateLoader,
                 useFactory: (createTranslateLoader),
@@ -57,6 +58,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
         SettingsService,
         ThemeDetection,
         Insomnia,
+        TranslateConfigService,
     ],
     bootstrap: [AppComponent]
 })

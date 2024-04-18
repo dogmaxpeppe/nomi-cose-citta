@@ -35,6 +35,8 @@ export class HomePage implements OnInit{
         this.appStore.pipe(select(selectPlayers)).subscribe(players => {
             this.playerList = players;
         });
+
+        this.trans.use(this.settings.getCurrentLanguage() ?? 'it');
     }
 
     async ngOnInit() {
@@ -109,6 +111,9 @@ export class HomePage implements OnInit{
     }
 
     async openRunningGame(game: Game) {
+        // Fix: a questo punto del codice può capitare che non sia stato ancora settato il linguaggio
+        // nel TranslationService. In tal caso, forzalo.
+        this.trans.use(this.settings.getCurrentLanguage() ?? 'it');
         const alert = await this.alertController.create({
             message: this.trans.instant('GAME_FOUND'),
             buttons: [{

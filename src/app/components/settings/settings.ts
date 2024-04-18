@@ -4,4 +4,5 @@ export interface Settings {
     theme: ThemeTypes,
     countdown: number,
     sound: boolean,
+    language: string,
 }

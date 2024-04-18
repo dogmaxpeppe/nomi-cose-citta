@@ -48,6 +48,19 @@
                         (ionChange)="changeProp($event)"
             ></ion-toggle>
         </ion-item>
+        <ion-item lines="full">
+            <ion-icon slot="start" name="flag"></ion-icon>
+            <ion-label>
+                {{"OPTIONS_SUBMENU.LANGUAGE" | translate}}
+            </ion-label>
+            <ion-select id="languageSelector"
+                        [value]="loadedSettings?.language"
+                        (ionChange)="changeProp($event)">
+                <ion-select-option *ngFor="let language of languages" [value]="language.key">
+                    {{language.flag}} {{language.value}}
+                </ion-select-option>
+            </ion-select>
+        </ion-item>
     </ion-list>
 </ion-content>
 

@@ -8,6 +8,7 @@ import { Game } from "../state/state";
 import { Platform } from "@ionic/angular";
 import { select, Store } from "@ngrx/store";
 import { getCurrentGame } from "../state/selectors";
+import { TranslateConfigService } from "./translate.service";
 
 @Injectable({
     providedIn: 'root'
@@ -23,7 +24,8 @@ export class SettingsService {
         private storage: Storage,
         private platform: Platform,
         private appStore: Store,
-        private themeDetection: ThemeDetection
+        private themeDetection: ThemeDetection,
+        private translateConfig: TranslateConfigService,
     ) {
         this.init();
     }
@@ -55,6 +57,11 @@ export class SettingsService {
                 await this.setMatchInfo(currentGame);
             }
         });
+
+        // Set language
+        if (!this.getCurrentLanguage()) {
+            this.translateConfig.setLanguage(this.translateConfig.getDefaultLanguage());
+        }
     }
 
     public async getAllSettings(): Promise<Settings> {
@@ -62,6 +69,7 @@ export class SettingsService {
             theme: await this.getTheme(),
             countdown: await this.getCountdown(),
             sound: await this.getSoundStatus(),
+            language: this.getCurrentLanguage(),
         };
     }
 
@@ -75,6 +83,10 @@ export class SettingsService {
 
     public async getSoundStatus() {
         return await this.get(this.SOUND_KEY);
+    }
+
+    public getCurrentLanguage() {
+        return this.translateConfig.getCurrentLang();
     }
 
     public async getMatchesInfo(): Promise<Game[]> {

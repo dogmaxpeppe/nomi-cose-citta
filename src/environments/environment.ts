@@ -8,6 +8,7 @@ const defaultSettings: Settings = {
     theme: 'auto',
     countdown: 120,
     sound: true,
+    language: 'it',
 };
 
 export const environment = {

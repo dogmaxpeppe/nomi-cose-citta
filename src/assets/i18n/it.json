@@ -12,14 +12,20 @@
       "DARK": "Scuro"
     },
     "ROUND_LENGTH": "Durata Round (in secondi)",
-    "ENABLE_SOUNDS": "Attiva Suoni"
+    "ENABLE_SOUNDS": "Attiva Suoni",
+    "LANGUAGE": "Lingua",
+    "LANGUAGES": {
+      "AUTO": "Auto",
+      "ITALIAN": "Italiano",
+      "ENGLISH": "Inglese"
+    }
   },
   "EXTRACT_OR_CHOOSE_LETTER": "Estrai casualmente o scegli una lettera",
   "CHOOSE_LETTER_MANUALLY": "Scegli Manualmente",
   "EXTRACT_LETTER": "Estrai casualmente",
   "LETTER_X": "Lettera {{letter}}",
   "LETTER_X_EXTRACTED": "È stata pescata la lettera {{letter}}. Giocare con questa lettera?",
-  "YES": "Yes",
+  "YES": "Sì",
   "NO": "No",
   "START": "VIA!",
   "RESET_TIMER": "Resetta Timer",

@@ -12,7 +12,13 @@
       "DARK": "Dark"
     },
     "ROUND_LENGTH": "Round Length (in seconds)",
-    "ENABLE_SOUNDS": "Enable Sounds"
+    "ENABLE_SOUNDS": "Enable Sounds",
+    "LANGUAGE": "Language",
+    "LANGUAGES": {
+      "AUTO": "Auto",
+      "ITALIAN": "Italian",
+      "ENGLISH": "English"
+    }
   },
   "EXTRACT_OR_CHOOSE_LETTER": "Extract randomly or choose a letter",
   "CHOOSE_LETTER_MANUALLY": "Choose Manually",
@@ -26,5 +32,21 @@
   "RESET_TIMER_MESSAGE": "Timer will be restarted. Continue?",
   "STOP_TIMER": "Stop Timer",
   "STOP_TIMER_MESSAGE": "Timer will be stopped and the turn will be over. Continue?",
-  "SAVE_SCORES": "Save Scores"
+  "SAVE_SCORES": "Save Scores",
+  "CANCEL": "Cancel",
+  "PROVISIONAL_RANKING": "Provisional Ranking",
+  "FINAL_RANKING": "Final Ranking",
+  "SETUP_POINTS": "Setup Points",
+  "NEXT_ROUND": "Next Round",
+  "END_GAME": "End Game",
+  "NEW_GAME": "New Game",
+  "PLAYER_NAME": "Player Name",
+  "AVATAR": "Avatar",
+  "EDIT_PLAYER": "Edit Player",
+  "PLAYER_LIST_IS_EMPTY": "Player list is empty! Add a new player.",
+  "DELETE_PLAYER": "Delete {{playerName}}",
+  "DELETE_PLAYER_MESSAGE": "Are you sure to delete selected player?",
+  "PLAYER_DELETED": "Player deleted correctly",
+  "SURE_CLOSE_APP": "Are you sure to close app?",
+  "GAME_FOUND": "Current game has been found. Continue it?"
 }

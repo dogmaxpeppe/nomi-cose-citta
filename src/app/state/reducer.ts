@@ -3,15 +3,31 @@ import { addPlayer, deletePlayer, newGame, updateLetters, updatePoints } from '.
 import { Player } from '../components/player/player';
 import { Game } from "./state";
 
-// TODO: se usi la lingua inglese, allarga l'alfabeto anche alle lettere JKWXY
-const initialLetters: string = 'ABCDEFGHILMNOPQRSTUVZ';
+const initialLetters: string = localStorage.getItem('lang')?.includes('it')
+    ? 'ABCDEFGHILMNOPQRSTUVZ'
+    : 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 // const initialPlayers: Player[] = [];
 const initialPlayers: Player[] = [{
     id: 1,
-    name: 'Player1',
+    name: 'Player 1',
     avatar: 1,
     points: null
-}];
+},{
+    id: 2,
+    name: 'Player 2',
+    avatar: 2,
+    points: null
+},{
+    id: 3,
+    name: 'Player 3',
+    avatar: 3,
+    points: null
+},{
+    id: 4,
+    name: 'Player 4',
+    avatar: 4,
+    points: null
+},];
 
 export const initialState: Game = {
     id: 1,
@@ -87,5 +103,3 @@ export const reducer = createReducer(
         }
     })
 );
-
-export default reducer;
